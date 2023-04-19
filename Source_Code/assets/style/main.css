@@ -1,0 +1,100 @@
+:root{
+    --gLightbg: #00aa91;
+    --whiteBg: #ffffff;
+}
+*{
+    scrollbar-width: thin;
+}
+*::-webkit-scrollbar {
+    width: 6px;
+}
+*::-webkit-scrollbar-thumb {
+    background: var(--gLightbg);
+}
+
+.msg {
+    width: fit-content;
+    background-color: rgb(42, 55, 50);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 7px;
+    position: relative;
+    letter-spacing: 0.5px;
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--whiteBg);
+    font-weight: 400;
+    font-size: 14px;
+    white-space: pre-wrap;
+}
+.msg.you {
+    background-color: var(--gLightbg);
+    position: relative;
+    margin-right: 10px;
+    direction: ltr;
+}
+.msg.you::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: calc(100% - 8px);
+    background-color: var(--gLightbg);
+    height: 12px;
+    width: 15px;
+    border-radius: 0px 2px 100% 0px;
+}
+.msg.ai::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: calc(100% - 8px);
+    background-color: rgb(42, 55, 50);
+    height: 12px;
+    width: 15px;
+    border-radius: 2px 0px 0% 100%;
+}
+.msg.ai {
+    margin-left: 10px;
+}
+.msgboxContR {
+    width: 100%;
+    direction: rtl;
+}
+.msgboxCont {
+    width: 100%;
+}
+.msgboxContR + .msgboxContR .msg::after{
+    display: none;
+}
+.msgboxCont + .msgboxCont .msg::after{
+    display: none;
+}
+
+
+
+
+body,html{
+    min-height: 400px;
+}
+.conatiner{
+    min-width: 400px;
+    padding: 12px;
+}
+.chat{
+    height: 430px;
+    overflow-y: auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.controler textarea{
+    resize: vertical;
+    white-space: pre-wrap;
+    min-height: 30px !important;
+    overflow: hidden;
+    margin-bottom: 10px;
+    padding-top: 5px;
+}
+textarea::placeholder{
+    color: #595959 !important;
+    font-size: 14px;
+}
