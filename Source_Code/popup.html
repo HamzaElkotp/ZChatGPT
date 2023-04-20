@@ -12,14 +12,28 @@
     <script src='/assets/javascript/app.js' defer></script>
 </head>
 <body>
-    <div class="conatiner">
-        <a class="button is-success is-small" href="https://www.buymeacoffee.com/HamzaElkotp/w/17860" target="_blank">Support us</a>
-        <div class="chat msgBox is-relative" id="msgBox">
-
+    <div class="conatiner load" id="load">
+        <div class="centeredBox">
+            <img src="/assets/logo/icon.png" alt="">
+            <p class="authorname"><span class="powered">by</span> <span class="fnames">GPT</span>core Studio</p>
         </div>
-        <div class="controler">
-            <textarea name="userMSG" id="userMsg" class="textarea" placeholder="Write anything here to chat!"></textarea>
-            <button class="button is-primary is-fullwidth" id="submitBTN">Send</button>
+    </div>
+    <div class="conatiner chatapp trans" id="chatapp">
+        <div class="innerContainer">
+            <a class="button is-success is-small" href="https://www.buymeacoffee.com/HamzaElkotp/w/17860" target="_blank">Support us</a>
+        </div>
+        
+        <div class="chat msgBox is-relative innerContainer" id="msgBox">
+            <div class="centeredBox starter" id="welcomeBox">
+                <i class="is-size-1 has-text-primary fa-duotone fa-robot" style="--fa-primary-opacity: 0.8; --fa-secondary-opacity: 0.3;"></i>
+                <p class="is-size-6" id="welcommsg"></p>
+                <p class="is-size-6">Write anything to start</p>
+            </div>
+        </div>
+        
+        <div class="controler innerContainer is-flex">
+            <textarea name="userMSG" id="userMsg" class="input" placeholder="Write anything here to chat!"></textarea>
+            <button class="sendBTN contbtn" id="submitBTN"><i class="fa-solid fa-paper-plane-top"></i></button>
         </div>
     </div>
 </body>

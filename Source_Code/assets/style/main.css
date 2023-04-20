@@ -1,6 +1,9 @@
 :root{
     --gLightbg: #00aa91;
     --whiteBg: #ffffff;
+    --graybg: #eeeeee;
+    --darkfo: #363636;
+    --blackfo: #000000
 }
 *{
     scrollbar-width: thin;
@@ -10,6 +13,30 @@
 }
 *::-webkit-scrollbar-thumb {
     background: var(--gLightbg);
+}
+html{
+    overflow-y: auto;
+}
+body,html{
+    min-height: 400px;
+    background-color: var(--graybg) !important;
+}
+.conatiner{
+    min-width: 420px;
+    padding: 12px 0 0 0;
+    margin-bottom: 0;
+    transition: opacity 0.5s;
+}
+.chat{
+    height: 500px;
+    overflow-y: auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.innerContainer{
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 5px;
 }
 
 .msg {
@@ -71,30 +98,97 @@
 }
 
 
-
-
-body,html{
-    min-height: 400px;
+.controler{
+    background-color: #fff;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
-.conatiner{
-    min-width: 400px;
-    padding: 12px;
-}
-.chat{
-    height: 430px;
-    overflow-y: auto;
-    padding-bottom: 10px;
-    padding-top: 10px;
-}
-.controler textarea{
+.controler .input{
     resize: vertical;
     white-space: pre-wrap;
-    min-height: 30px !important;
-    overflow: hidden;
-    margin-bottom: 10px;
+    min-height: 24px !important;
     padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 18px;
+    padding-left: 2px;
+    overflow: hidden;
+    border: none ;
+    outline: none ;
+    box-shadow: none ;
+    background-color: transparent !important;
 }
-textarea::placeholder{
-    color: #595959 !important;
+.controler .input::placeholder{
+    color: #363636 !important;
     font-size: 14px;
 }
+.controler .input:focus, .controler .input:active{
+    border: none ;
+    outline: none ;
+    box-shadow: none ;
+}
+.contbtn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 17px;
+}
+.sendBTN{
+    padding-left: 10px;
+    color: var(--gLightbg);
+}
+
+
+.trans{
+    opacity: 0;
+    pointer-events: none;
+}
+.load{
+    background-color: var(--whiteBg);
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.centeredBox{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    width: 100%;
+    padding: 0 15px
+}
+.centeredBox img{
+    width: 140px;
+}
+.centeredBox .authorname {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0px;
+    color: var(--darkfo);
+}
+.centeredBox .powered{
+    font-weight: 500;
+    color: var(--blackfo);
+    font-size: 16px;
+}
+.centeredBox .fnames{
+    font-weight: 700;
+    color: var(--gLightbg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
