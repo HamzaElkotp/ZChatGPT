@@ -180,15 +180,55 @@ body,html{
     color: var(--gLightbg);
 }
 
-
-
-
-
-
-
-
-
-
-
+.settings{
+    font-size: 19px;
+    padding-right: 15px;
+    color: var(--gLightbg);
+}
+.user-control{
+    position: relative;
+}
+.apiControls {
+    background-color: #363636e2;
+    width: 200px;
+    height: fit-content;
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    padding: 14px 12px;
+    border-radius: 0 10px 0 0;
+    transition: 0.5s all;
+}
+.apiControls.trans{
+    opacity: 0;
+}
+.apiControls.trans *{
+    opacity: 0;
+}
+.select, select, input{
+    width: 100%;
+}
+.label {
+    margin-bottom: 2px !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    font-size: 12.5px !important;
+    color: var(--graybg) !important;
+}
+.field{
+    margin-bottom: 0.3rem !important;
+}
+.field:last-child{
+    margin-bottom: 0rem !important;
+}
+.zvalue {
+    color: #00f2ce;
+    font-size: 11px;
+    float: right;
+    transition: 0.5s opacity;
+}
+.zvalue.trans {
+    opacity: 0.4;
+}
 
 

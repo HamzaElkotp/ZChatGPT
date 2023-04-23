@@ -31,10 +31,69 @@
             </div>
         </div>
         
-        <div class="controler innerContainer is-flex">
-            <textarea name="userMSG" id="userMsg" class="input" placeholder="Write anything here to chat!"></textarea>
-            <button class="sendBTN contbtn" id="submitBTN"><i class="fa-solid fa-paper-plane-top"></i></button>
-        </div>
+        <section class="user-control">
+            <form class="apiControls trans" id="apiControls">
+
+                <div class="field">
+                    <label class="label">AI Model</label>
+                    <div class="control">
+                      <div class="select is-small">
+                        <select id="modelInput">
+                          <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+                          <option value="gpt-3.5-turbo-0301">gpt-3.5-turbo-0301</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Role / Behaive</label>
+                    <div class="control">
+                      <div class="select is-small">
+                        <select id="roleInput">
+                          <option value="system">system</option>
+                          <option value="user">user</option>
+                          <option value="assistant">assistant</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Temperature <span class="zvalue">default is 1</span></label>
+                    <div class="control">
+                        <input class="rnage is-primary" type="range" min="0" max="2" step="0.1" value="1">
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label">Top p <p class="zvalue trans">default is 1</p></label>
+                    <div class="control">
+                        <input class="rnage is-primary" type="range" min="0.1" max="1" step="0.1" value="1">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Presence penalty <p class="zvalue trans">default is 0</p></label>
+                    <div class="control">
+                        <input class="rnage is-primary" type="range" min="-2" max="2" step="0.1" value="0">
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label">Frequency penalty <p class="zvalue trans">default is 0</p></label>
+                    <div class="control">
+                        <input class="rnage is-primary" type="range" min="-2" max="2" step="0.1" value="0">
+                    </div>
+                </div>
+            </form>
+
+            <div class="controler innerContainer is-flex">
+                <button class="settings contbtn" id="settings"><i class="fa-duotone fa-sliders"></i></button>
+                <textarea name="userMSG" id="userMsg" class="input" placeholder="Write anything here to chat!"></textarea>
+                <button class="sendBTN contbtn" id="submitBTN"><i class="fa-solid fa-paper-plane-top"></i></button>
+            </div>
+        </section>
     </div>
 </body>
 </html>
