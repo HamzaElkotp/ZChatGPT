@@ -1005,6 +1005,82 @@ fieldset[disabled] .button.is-dark.is-inverted.is-outlined {
   color: #fff;
 }
 
+.button.is-bcoffee {
+  background-color: var(--yellow);
+  border-color: transparent;
+  color: var(--darkfo);
+  font-weight: 600;
+  transition: 0.25s;
+}
+.button.is-bcoffee:hover, .button.is-bcoffee.is-hovered {
+  background-color: var(--yellowD);
+  border-color: transparent;
+  color: var(--darkfo);
+}
+.button.is-bcoffee:focus, .button.is-bcoffee.is-focused {
+  border-color: transparent;
+  color: var(--darkfo);
+}
+.button.is-bcoffee:focus:not(:active), .button.is-bcoffee.is-focused:not(:active) {
+  box-shadow: 0 0 0 0.125em var(--yellowT);
+}
+.button.is-bcoffee:active, .button.is-bcoffee.is-active {
+  background-color: var(--yellowF);
+  border-color: transparent;
+  color: var(--darkfo);
+}
+
+.button.is-patreon {
+  background-color: var(--red);
+  border-color: transparent;
+  color: var(--graybg);
+  font-weight: 600;
+  transition: 0.25s;
+}
+.button.is-patreon:hover, .button.is-patreon.is-hovered {
+  background-color: var(--redD);
+  border-color: transparent;
+  color: var(--graybg);
+}
+.button.is-patreon:focus, .button.is-patreon.is-focused {
+  border-color: transparent;
+  color: var(--graybg);
+}
+.button.is-patreon:focus:not(:active), .button.is-patreon.is-focused:not(:active) {
+  box-shadow: 0 0 0 0.125em var(--redT);
+}
+.button.is-patreon:active, .button.is-patreon.is-active {
+  background-color: var(--redF);
+  border-color: transparent;
+  color: var(--graybg);
+}
+
+.button.is-paypal {
+  background-color: var(--blue);
+  border-color: transparent;
+  color: var(--graybg);
+  font-weight: 600;
+  transition: 0.25s;
+}
+.button.is-paypal:hover, .button.is-paypal.is-hovered {
+  background-color: var(--blueD);
+  border-color: transparent;
+  color: var(--graybg);
+}
+.button.is-paypal:focus, .button.is-paypal.is-focused {
+  border-color: transparent;
+  color: var(--graybg);
+}
+.button.is-paypal:focus:not(:active), .button.is-paypal.is-focused:not(:active) {
+  box-shadow: 0 0 0 0.125em var(--blueT);
+}
+.button.is-paypal:active, .button.is-paypal.is-active {
+  background-color: var(--blueF);
+  border-color: transparent;
+  color: var(--graybg);
+}
+
+
 .button.is-primary {
   background-color: #00d1b2;
   border-color: transparent;

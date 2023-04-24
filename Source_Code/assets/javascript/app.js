@@ -12,7 +12,13 @@ const textInput = document.querySelector("#userMsg");
 
 const modelInput = document.querySelector('#modelInput');
 const roleInput = document.querySelector('#roleInput');
-const rangeInputs = Array.from(document.querySelectorAll('[type="range"]'))
+const rangeInputs = Array.from(document.querySelectorAll('[type="range"]'));
+
+
+const donationPop = document.querySelector('#donationPop');
+const donateOpen = document.querySelector('#donateBtn');
+const donateClose = document.querySelector('#donateClose');
+
 
 const welcomeMsgs = ["I am here to assit you.", "Welcome human, Finally I met one🥳.", "Please donate me by clicking 'support us' button.💖", 
 "Noooo, human again! noooo my tokens will end soon😫", "You must be happy for being human getting AI help😏", "You are My Brother in AI",
@@ -38,6 +44,9 @@ document.body.addEventListener('load', preload());
 
 (function (){
     chatSettings.addEventListener('click', toggleChatBar);
+
+    donateOpen.addEventListener('click', showDonate);
+    donateClose.addEventListener('click', hideDonate);
 
     rangeInputs.forEach((ele)=>{
         ele.addEventListener('input', ()=>{
@@ -84,18 +93,24 @@ const userMsgDom = function(msg){
 
 function valueChange(element){
     let theNext = element.parentElement.parentElement.querySelector('.zvalue');
-    theNext.classList.remove("trans")
+    theNext.classList.remove("trans");
     theNext.textContent = element.value;
 }
 function valueHide(element){
     let theNext = element.parentElement.parentElement.querySelector('.zvalue');
-    theNext.classList.add("trans")
+    theNext.classList.add("trans");
 }
 
 function toggleChatBar(element){
-    apiContoleBar.classList.toggle("trans")
+    apiContoleBar.classList.toggle("trans");
 }
 
+function showDonate(){
+    donationPop.classList.remove('trans');
+}
+function hideDonate(){
+    donationPop.classList.add('trans');
+}
 
 
 let pushTmsgCont = composer(gptMsgTaker,gptMsgDom);

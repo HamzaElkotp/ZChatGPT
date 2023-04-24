@@ -18,9 +18,10 @@
             <p class="authorname"><span class="powered">by</span> <span class="fnames">GPT</span>core Studio</p>
         </div>
     </div>
+
     <div class="conatiner chatapp trans" id="chatapp">
         <div class="innerContainer">
-            <a class="button is-success is-small" href="https://www.buymeacoffee.com/HamzaElkotp/w/17860" target="_blank">Support us</a>
+            <div class="button is-primary is-small donate" target="_blank" id="donateBtn">Support us <i class="fa-duotone fa-circle-dollar-to-slot donate"></i></div>
         </div>
         
         <div class="chat msgBox is-relative innerContainer" id="msgBox">
@@ -31,8 +32,8 @@
             </div>
         </div>
         
-        <section class="user-control">
-            <form class="apiControls trans" id="apiControls">
+        <section class="user-control is-relative">
+            <form class="apiControls trans">
 
                 <div class="field">
                     <label class="label">AI Model</label>
@@ -94,6 +95,29 @@
                 <button class="sendBTN contbtn" id="submitBTN"><i class="fa-solid fa-paper-plane-top"></i></button>
             </div>
         </section>
+    </div>
+
+    <div class="full-shadowBg trans" id="donationPop">
+        <div class="is-relative popup">
+            <div class="donations">
+                <i class="fa-solid fa-xmark xmark" id="donateClose"></i>
+                <p class="par1 has-text-centered">🎊Donations help this extension continue for free.🥳</p>
+                <p class="nota">This extension <span class="has-text-danger-dark">depends</span> on donations because we don't provide <span class="has-text-warning-dark">paid</span> sevices or <span class="has-text-warning-dark">selling</span> users data.</p>
+                <div class="dWays">
+                    <h1 class="heada">Support on:</h1>
+                    <a href="https://www.buymeacoffee.com/HamzaElkotp/w/17860" target="_blank" class="button is-bcoffee is-fullwidth">Buy Me a Coffee <i class="fa-duotone fa-cup-togo"></i></a>
+                    <a href="https://www.patreon.com/HamzaElkotb" target="_blank" class="button is-patreon is-fullwidth"><i class="fa-brands fa-patreon"></i> Patreon</a>
+                    <a href="https://www.paypal.com/paypalme/dtcHamza" target="_blank" class="button is-paypal is-fullwidth"><i class="fa-brands fa-paypal"></i> PayPal</a>
+                </div>
+                <h1 class="heada">How your donation will help?</h1>
+                <ul>
+                    <li>Paying for OpenAI API expenses.</li>
+                    <li>Adding new expensive AI services for free such as GPT4 and dall-e.</li>
+                    <li>Increasing privacy and security.</li>
+                    <li>Developing new free extensions.</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </body>
 </html>

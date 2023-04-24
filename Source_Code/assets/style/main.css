@@ -3,7 +3,24 @@
     --whiteBg: #ffffff;
     --graybg: #eeeeee;
     --darkfo: #363636;
-    --blackfo: #000000
+    --blackfo: #000000;
+    --swiftBlack: #363636e2;
+    --tSwiftBlack: #36363666;
+
+    --yellow: #ffdd00;
+    --yellowD: #f3d200;
+    --yellowT: #fbd900f4;
+    --yellowF: #e8c900;
+
+    --red: #ff424d;
+    --redD: #ff2933;
+    --redT: #ff424bd5;
+    --redF: #ff1521;
+
+    --blue: #1073eb;
+    --blueD: #0f59d6;
+    --blueT: #114ccc;
+    --blueF: #114ccc;
 }
 *{
     scrollbar-width: thin;
@@ -185,11 +202,8 @@ body,html{
     padding-right: 15px;
     color: var(--gLightbg);
 }
-.user-control{
-    position: relative;
-}
 .apiControls {
-    background-color: #363636e2;
+    background-color: var(--swiftBlack);
     width: 200px;
     height: fit-content;
     position: absolute;
@@ -230,5 +244,91 @@ body,html{
 .zvalue.trans {
     opacity: 0.4;
 }
+.full-shadowBg{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--tSwiftBlack);
+    z-index: 1001px;
+    top: 0;
+    transition: 0.25s;
+}
+.popup {
+    width: 100%;
+    height: 100vh;
+}
+.donations {
+    width: calc(100% - 40px);
+    padding: 15px;
+    background-color: var(--whiteBg);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 1px var(--gLightbg);
+    margin-right: 20px;
+    box-sizing: border-box;
+}
+.donations ul {
+    list-style: disc !important;
+    padding-left: 15px !important;
+    font-size: 14px;
+}
+.donations .heada {
+    font-size: 18px;
+    font-weight: 600;
+}
+.nota {
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 5px;
+}
+.dWays {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.dWays .button {
+    margin-top: 7px;
+}
+.dWays i {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.xmark{
+    position: absolute;
+    right: 8px;
+    font-size: 20px;
+    top: 8px;
+    cursor: pointer;
+}
+i.donate{
+    padding-left: 8px;
+}
+.donate{
+    font-size: 13px !important;
+    font-weight: 700 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
