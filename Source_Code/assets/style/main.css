@@ -1,5 +1,6 @@
 :root{
     --gLightbg: #00aa91;
+    --gLightbgD: #007462;
     --whiteBg: #ffffff;
     --graybg: #eeeeee;
     --darkfo: #363636;
@@ -167,6 +168,7 @@ body,html{
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1000;
 }
 .centeredBox{
     position: absolute;
@@ -414,7 +416,46 @@ i.donate{
 }
 
 
-
+.doNoti {
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid var(--gLightbg);
+    width: max-content;
+    border-radius: 6px;
+    height: max-content;
+    position: absolute;
+    z-index: 100;
+    padding: 10px 0 0 0;
+    overflow: clip;
+    left: 50%;
+    transition: top 2s, background 0.5s, color 0.5s;
+    top: -10%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+.doNoti.active:hover {
+    background: rgba(0, 0, 0, 0.6);
+    color: var(--graybg);
+}
+.doNoti p {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0 10px 0 10px;
+}
+.doNoti .border {
+    height: 3px;
+    background: var(--gLightbgD);
+    width: 0%;
+    transition: 1.5s;
+}
+.doNoti.active {
+    top: 10%;
+}
+.doNoti.active .border {
+    width: 100%;
+}
 
 
 

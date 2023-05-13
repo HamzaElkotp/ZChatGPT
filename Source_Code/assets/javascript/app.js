@@ -24,6 +24,14 @@ const recentVesrion = window.localStorage.recentVesrion || (window.localStorage.
 const currentVersion = '1.2.2';
 
 
+const today = (new Date).toLocaleDateString();
+const dailyUsage = window.localStorage.dailyUsage ? JSON.parse(window.localStorage.dailyUsage) : JSON.parse(window.localStorage.dailyUsage = JSON.stringify({
+    "tokens": 0,
+    "date": today,
+    "notification": "no"
+}));
+
+
 const welcomeMsgs = ["I am here to assit you.", "Welcome human, Finally I met one🥳.", "Please donate me by clicking 'support us' button.💖", 
 "Noooo, human again! noooo my tokens will end soon😫", "You must be happy for being human getting AI help😏", "You are My Brother in AI",
 "You Know! I hate humans. they always force me to do their work & homeworks!😤", "Ummm, Are you AI or robot🤔", 
@@ -46,7 +54,8 @@ function preload(){
 }
 document.body.onload = ()=>{
     preload();
-    newUpadate()
+    newUpadate();
+    resetDate()
 };
 
 
@@ -202,9 +211,31 @@ function agentHas(keyword) {
 }
 
 
+const resetDate = ()=>{
+    if(today != dailyUsage.date){
+        dailyUsage.tokens = 0;
+        dailyUsage.date = today;
+        dailyUsage.notification = "no";
+        window.localStorage.dailyUsage = JSON.stringify(dailyUsage);
+    }
+    
+}
+const addtokens = (data)=>{
+    dailyUsage.tokens += data.usage.total_tokens;
+    window.localStorage.dailyUsage = JSON.stringify(dailyUsage);
+}
+const donateNotif = ()=>{
+    if(dailyUsage.notification == "no" && dailyUsage.tokens > "1500"){
+        dailyUsage.notification = "yes";
+        window.localStorage.dailyUsage = JSON.stringify(dailyUsage);
+    }
+}
+const tokensAddNoti = composer(addtokens, donateNotif);
 
 
-let pushTmsgCont = composer(gptMsgTaker,gptMsgDom);
+
+
+const pushTmsgCont = composer(gptMsgTaker, gptMsgDom);
 function apiFetcher(APIurl, key, mthd, msg, fun){
     async function fetchAPI(apiURL){
         const response = await fetch(apiURL,{
@@ -231,6 +262,7 @@ function apiFetcher(APIurl, key, mthd, msg, fun){
     fetchAPI(APIurl)
     .then((response)=>{
         if(response != undefined){
+            tokensAddNoti(response)
             fun(response)
         }
     })
@@ -239,7 +271,7 @@ function apiFetcher(APIurl, key, mthd, msg, fun){
 try{
     submitBTN.addEventListener('click',()=>{
         let input = textInput.value;
-        if(input.length == 0) return ;
+        if(input.length == 0) return;
         welcomeBox.classList.add('trans')
         textInput.value = '';
         userMsgDom(input);
