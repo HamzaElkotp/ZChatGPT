@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "ZChatGPT",
     "description": "A simple extension to allow browser users to use ChatGPT in any tab without the need to open ChatGPT or having an account.",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "icons":{
         "16": "/assets/logo/icon16.png",
         "48": "/assets/logo/icon48.png",

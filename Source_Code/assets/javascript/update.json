@@ -1,12 +1,13 @@
 {
     "title": "🎊Congrats For Getting The New Update!🥳",
-    "version": "<span class='is-size-6'>1st May</span> <span class='is-size-5'>Version</span> 1.2.2",
+    "version": "<span class='is-size-6'>1st May</span> <span class='is-size-5'>Version</span> 1.2.3",
     "note": "Every Month There Is A Major Update",
     "newNote": "See What Is New:👇",
     "features": [
+        "Loading page with, funny messages after load.",
         "Now you can control ChatGPT brain using settings button next to the input field.",
-        "Loading page with, funny messages after load",
-        "Support menu, check it by clicking 'Support Us' and don't forget to donate to us.",
+        "Donation menu, check it by clicking 'Support Us' and don't forget to donate to us.",
+        "Donations notification!",
         "We added last updates bar. Which you see now."
     ],
     "contact": "For problems and sugessions contact us on <span class='has-text-success'>support@gptcorestudio.com</span>",
