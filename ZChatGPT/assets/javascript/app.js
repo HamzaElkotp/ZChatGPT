@@ -21,7 +21,7 @@ const donateClose = document.querySelector('#donateClose');
 
 
 const recentVesrion = window.localStorage.recentVesrion || (window.localStorage.recentVesrion = '');
-const currentVersion = '1.2.2';
+const currentVersion = '1.2.3.1';
 
 
 const today = (new Date).toLocaleDateString();
@@ -50,7 +50,7 @@ function preload(){
         loadSpace.classList.add('trans');
         chatSpace.classList.remove('trans');
         welcomingMsg.innerText = welcomeMsgs[Math.floor(Math.random() * (welcomeMsgs.length - 1))];
-    }, 1000);
+    }, 10);
 }
 document.body.onload = ()=>{
     preload();
