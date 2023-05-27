@@ -8,24 +8,23 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='/assets/style/main.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='/assets/style/bulma.css'>
-    <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro-v6@44659d9/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link rel='stylesheet' type='text/css' media='screen' href='/assets/style/all.min.css'>
 </head>
 <body>
     <div class="conatiner load" id="load">
         <div class="centeredBox">
-            <img src="/assets/logo/icon.png" alt="">
+            <img src="/assets/logo/icon128.png" alt="">
             <p class="authorname"><span class="powered">by</span> <span class="fnames">GPT</span>core Studio</p>
         </div>
     </div>
 
     <div class="conatiner chatapp trans" id="chatapp">
-        <div class="innerContainer">
-            <div class="button is-primary is-small donate" target="_blank" id="donateBtn">Support us <i class="fa-duotone fa-circle-dollar-to-slot donate"></i></div>
-        </div>
+        <div class="button is-primary is-small donate" id="donateBtn">Support us <i class="fa-solid fa-circle-dollar-to-slot donate"></i></div>
+        
         
         <div class="chat msgBox is-relative innerContainer" id="msgBox">
             <div class="centeredBox starter" id="welcomeBox">
-                <i class="is-size-1 has-text-primary fa-duotone fa-robot" style="--fa-primary-opacity: 0.8; --fa-secondary-opacity: 0.3;"></i>
+                <i class="is-size-1 has-text-primary fa-solid fa-robot" style="opacity: 0.8"></i>
                 <p class="is-size-6" id="welcommsg"></p>
                 <p class="is-size-6">Write anything to start</p>
             </div>
@@ -89,22 +88,22 @@
             </form>
 
             <div class="controler innerContainer is-flex">
-                <button class="settings contbtn" id="settings"><i class="fa-duotone fa-sliders"></i></button>
+                <button class="settings contbtn" id="settings"><i class="fa-solid fa-sliders"></i></button>
                 <textarea name="userMSG" id="userMsg" class="input" placeholder="Write anything here to chat!"></textarea>
-                <button class="sendBTN contbtn" id="submitBTN"><i class="fa-solid fa-paper-plane-top"></i></button>
+                <button class="sendBTN contbtn" id="submitBTN"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </section>
     </div>
 
     <div class="full-shadowBg trans" id="donationPop">
         <div class="is-relative popup">
-            <div class="donations">
+            <div class="popupbar">
                 <i class="fa-solid fa-xmark xmark" id="donateClose"></i>
                 <p class="par1 has-text-centered">🎊Donations help this extension continue for free.🥳</p>
                 <p class="nota">This extension <span class="has-text-danger-dark">depends</span> on donations because we don't provide <span class="has-text-warning-dark">paid</span> sevices or <span class="has-text-warning-dark">selling</span> users data.</p>
                 <div class="dWays">
                     <h1 class="heada">Support on:</h1>
-                    <a href="https://www.buymeacoffee.com/HamzaElkotp/w/17860" target="_blank" class="button is-bcoffee is-fullwidth">Buy Me a Coffee <i class="fa-duotone fa-cup-togo"></i></a>
+                    <a href="https://www.buymeacoffee.com/HamzaElkotp/w/17860" target="_blank" class="button is-bcoffee is-fullwidth">Buy Me a Coffee <i class="fa-solid fa-mug-hot"></i></a>
                     <a href="https://www.patreon.com/HamzaElkotb" target="_blank" class="button is-patreon is-fullwidth"><i class="fa-brands fa-patreon"></i> Patreon</a>
                     <a href="https://www.paypal.com/paypalme/dtcHamza" target="_blank" class="button is-paypal is-fullwidth"><i class="fa-brands fa-paypal"></i> PayPal</a>
                 </div>

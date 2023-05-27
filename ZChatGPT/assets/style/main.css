@@ -260,8 +260,9 @@ body,html{
     width: 100%;
     height: 100vh;
 }
-.donations {
+.popupbar {
     width: calc(100% - 40px);
+    max-width: 600px;
     padding: 15px;
     background-color: var(--whiteBg);
     position: absolute;
@@ -278,7 +279,7 @@ body,html{
     padding-left: 15px !important;
     font-size: 14px;
 }
-.donations .heada {
+.popupbar .heada {
     font-size: 18px;
     font-weight: 600;
 }
@@ -312,6 +313,8 @@ i.donate{
     font-size: 13px !important;
     font-weight: 700 !important;
 }
+
+
 
 
 .full-shadowT{
