@@ -19,8 +19,12 @@
     </div>
 
     <div class="conatiner chatapp trans" id="chatapp">
-        <div class="button is-primary is-small donate" id="donateBtn">Support us <i class="fa-solid fa-circle-dollar-to-slot donate"></i></div>
-        
+        <div class="innerContainer is-flex is-justify-content-space-between is-align-items-center">
+            <div class="button is-primary is-small donate" id="donateBtn">Support us <i class="fa-solid fa-circle-dollar-to-slot donate"></i></div>
+            <div class="is-flex">
+                <div class="btn" id="settingsBtn" role="button"><i class="fa-solid fa-gears has-text-primary is-size-4"></i></div>
+            </div>
+        </div>
         
         <div class="chat msgBox is-relative innerContainer" id="msgBox">
             <div class="centeredBox starter" id="welcomeBox">
@@ -114,6 +118,23 @@
                     <li>Increasing privacy and security.</li>
                     <li>Developing new free extensions.</li>
                 </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-shadowBg trans" id="settingsPop">
+        <div class="is-relative popup">
+            <div class="popupbar">
+                <i class="fa-solid fa-xmark xmark" id="settingsClose"></i>
+                <p class="title is-5 has-text-centered has-text-grey is-marginless">Settings</p>
+                <div class="is-flex is-justify-content-space-between is-align-items-center">
+                    <label class="has-text-weight-semibold">Dark Mode</label>
+                    <label class="switch" for="modeCheck">
+                        <input type="checkbox" id="modeCheck">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <p class="is-size-65 has-text-centered has-text-grey">All changes will be saved directly</p>
             </div>
         </div>
     </div>

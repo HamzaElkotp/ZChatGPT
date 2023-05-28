@@ -21,7 +21,7 @@ const donateClose = document.querySelector('#donateClose');
 
 
 const recentVesrion = window.localStorage.recentVesrion || (window.localStorage.recentVesrion = '');
-const currentVersion = '1.2.3.1';
+const currentVersion = '1.3.0';
 
 
 const today = (new Date).toLocaleDateString();
@@ -30,6 +30,15 @@ const dailyUsage = window.localStorage.dailyUsage ? JSON.parse(window.localStora
     "date": today,
     "notification": "no"
 }));
+
+const settingsPop = document.querySelector("#settingsPop");
+const settingsOpen = document.querySelector("#settingsBtn");
+const settingsClose = document.querySelector('#settingsClose');
+const modeCheckBox = document.querySelector("#modeCheck");
+const settings = window.localStorage.settings ? JSON.parse(window.localStorage.settings) : JSON.parse(window.localStorage.settings = JSON.stringify({
+    "mode": "light",
+}));
+
 
 
 const welcomeMsgs = ["I am here to assit you.", "Welcome human, Finally I met one🥳.", "Please donate me by clicking 'support us' button.💖", 
@@ -55,7 +64,8 @@ function preload(){
 document.body.onload = ()=>{
     preload();
     newUpadate();
-    resetDate()
+    resetDate();
+    setMode();
 };
 
 
@@ -133,8 +143,22 @@ async function newUpadate(){
 (function (){
     chatSettings.addEventListener('click', toggleChatBar);
 
-    donateOpen.addEventListener('click', showDonate);
-    donateClose.addEventListener('click', hideDonate);
+    donateOpen.addEventListener('click', ()=>{
+        showPopUp(donationPop)
+    });
+    donateClose.addEventListener('click', ()=>{
+        hidePopUp(donationPop)
+    });
+
+    settingsOpen.addEventListener('click', ()=>{
+        showPopUp(settingsPop)
+    });
+    settingsClose.addEventListener('click', ()=>{
+        hidePopUp(settingsPop)
+    });
+    modeCheckBox.addEventListener('click', ()=>{
+        saveSettings()
+    })
 
     rangeInputs.forEach((ele)=>{
         ele.addEventListener('input', ()=>{
@@ -144,7 +168,8 @@ async function newUpadate(){
             valueHide(ele);
         })
     })
-}())
+}());
+
 
 
 const composer = function(...funcs) {
@@ -193,11 +218,11 @@ function toggleChatBar(element){
     apiContoleBar.classList.toggle("trans");
 }
 
-function showDonate(){
-    donationPop.classList.remove('trans');
+function showPopUp(e){
+    e.classList.remove('trans');
 }
-function hideDonate(){
-    donationPop.classList.add('trans');
+function hidePopUp(e){
+    e.classList.add('trans');
 }
 
 const isSafari = ()=>{return (!!window.ApplePaySetupFeature || !!window.safari) && agentHas("Safari") && !agentHas("Chrome") && !agentHas("CriOS")};
@@ -232,6 +257,25 @@ const donateNotif = ()=>{
 }
 const tokensAddNoti = composer(addtokens, donateNotif);
 
+
+
+const setMode = ()=>{
+    if(settings.mode == "light"){
+        document.body.classList.remove("dark")
+    }else{
+        document.body.classList.add("dark");
+    }
+}
+const checkModeChange = ()=>{
+    if(modeCheckBox.checked){
+        settings.mode = "dark";
+        window.localStorage.settings = JSON.stringify(settings)
+    }else{
+        settings.mode = "light";
+        window.localStorage.settings = JSON.stringify(settings)
+    }
+}
+const saveSettings = composer(checkModeChange, setMode)
 
 
 
