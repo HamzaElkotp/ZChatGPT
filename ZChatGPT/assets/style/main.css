@@ -1,8 +1,11 @@
 :root{
     --gLightbg: #00aa91;
     --gLightbgD: #007462;
+    --darkGreen: #101311;
+    --vDarkGreen: #121714;
     --whiteBg: #ffffff;
     --graybg: #eeeeee;
+    --gray50: #d9d9d9;
     --darkfo: #363636;
     --blackfo: #000000;
     --swiftBlack: #363636e2;
@@ -314,6 +317,73 @@ i.donate{
     font-weight: 700 !important;
 }
 
+hr {
+    background-color: var(--gLightbg) !important;
+    margin: 1rem 0 !important;
+    opacity: 0.4 !important;
+}
+
+.btn{
+    margin-left: 12px;
+}
+[role="button"]{
+    cursor: pointer;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 55px;
+    height: 28px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}  
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 5px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+input:checked + .slider {
+    background-color: var(--gLightbg);
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--gLightbg);
+}
+input:focus + .slider::before, input:checked + .slider::before{
+    bottom: 5px;
+}
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
 
 
 
@@ -463,6 +533,12 @@ i.donate{
 
 
 
+.is-size-65{
+    font-size: 14px;
+}
+
+
+
 @keyframes half {
     50%{
         transform: translate(-50%, -50%) rotate(290deg);
@@ -510,7 +586,47 @@ i.donate{
 
 
 
-
+body, .load, .controler, .update, .popupbar{
+    transition: 0.5s background-color;
+}
+.load span, .msgBox p, .update p, .has-text-warning-dark, .has-text-danger-dark, .controler textarea::placeholder, .controler textarea {
+    transition: 0.5s color;
+}
+body.dark {
+    background-color: var(--vDarkGreen) !important;
+}
+body.dark .load{
+    background-color: var(--vDarkGreen);
+}
+body.dark .load span{
+    color: var(--gray50) !important;
+}
+body.dark .msgBox p{
+    color: var(--gray50);
+}
+body.dark .controler{
+    background-color: var(--darkfo);
+}
+body.dark .update {
+    background: rgba(79, 79, 79, 0.25);
+    color: var(--graybg);
+}
+body.dark .update p{
+    color: var(--graybg);
+}
+body.dark .popupbar {
+    background-color: var(--darkGreen);
+    color: var(--gray50);
+}
+body.dark .has-text-warning-dark {
+    color: #f7b400 !important;
+}
+body.dark .has-text-danger-dark {
+    color: #f03 !important;
+}
+body.dark .controler textarea::placeholder, body.dark .controler textarea{
+    color: var(--gray50);
+}
 
 
 

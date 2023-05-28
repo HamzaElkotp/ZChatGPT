@@ -1,12 +1,12 @@
 {
-    "title": "😔Sorry For What Happened❗",
-    "version": "<span class='is-size-6'>22nd May</span> <span class='is-size-5'>Version</span> 1.2.3.1",
+    "title": "A new update is HERE❗",
+    "version": "<span class='is-size-6'>1st Jun</span> <span class='is-size-5'>Version</span> 1.3.0",
     "note": "Every Month There Is A Major Update",
     "newNote": "See What Is New:👇",
     "features": [
-        "Fix Icons",
-        "Decrease Loading page time"
+        "Settings popup. click settings the above button to see it!",
+        "Now you can use ZChatGPT in Dark mode. by enabling it from settigns Popup"
     ],
     "contact": "For problems and sugessions contact us on <span class='has-text-success'>support@gptcorestudio.com</span>",
-    "buttonMsg": "I forgive you"
+    "buttonMsg": "I'll Use Dark mode Now"
 }
