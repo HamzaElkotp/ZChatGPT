@@ -3,11 +3,12 @@
     --gLightbgD: #007462;
     --darkGreen: #101311;
     --vDarkGreen: #121714;
+    --darkBg: #202123;
     --whiteBg: #ffffff;
     --graybg: #eeeeee;
     --gray50: #d9d9d9;
     --darkfo: #363636;
-    --blackfo: #000000;
+    --blackfo: #40414f;
     --swiftBlack: #363636e2;
     --tSwiftBlack: #36363666;
 
@@ -593,10 +594,10 @@ body, .load, .controler, .update, .popupbar{
     transition: 0.5s color;
 }
 body.dark {
-    background-color: var(--vDarkGreen) !important;
+    background-color: var(--darkBg) !important;
 }
 body.dark .load{
-    background-color: var(--vDarkGreen);
+    background-color: var(--darkBg);
 }
 body.dark .load span{
     color: var(--gray50) !important;
@@ -625,7 +626,7 @@ body.dark .has-text-danger-dark {
     color: #f03 !important;
 }
 body.dark .controler textarea::placeholder, body.dark .controler textarea{
-    color: var(--gray50);
+    color: var(--gray50) !important;
 }
 
 

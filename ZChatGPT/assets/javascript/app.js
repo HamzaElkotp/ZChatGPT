@@ -48,7 +48,7 @@ const welcomeMsgs = ["I am here to assit you.", "Welcome human, Finally I met on
 "Any problems may happen, most of time are from OpenAI.", "My friend, rate me on the store plz.",
 `GPTcore Studio protects your Privacy\n<Your Privacy Yours>😎`];
 
-const token = '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';
+const token = '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';
 const apiKeys = 'https://api.openai.com/v1/chat/completions';
 
 
@@ -261,9 +261,11 @@ const tokensAddNoti = composer(addtokens, donateNotif);
 
 const setMode = ()=>{
     if(settings.mode == "light"){
-        document.body.classList.remove("dark")
+        document.body.classList.remove("dark");
+        modeCheckBox.checked = false;
     }else{
         document.body.classList.add("dark");
+        modeCheckBox.checked = true;
     }
 }
 const checkModeChange = ()=>{
