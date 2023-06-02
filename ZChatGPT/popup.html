@@ -22,6 +22,7 @@
         <div class="innerContainer is-flex is-justify-content-space-between is-align-items-center">
             <div class="button is-primary is-small donate" id="donateBtn">Support us <i class="fa-solid fa-circle-dollar-to-slot donate"></i></div>
             <div class="is-flex">
+                <div class="btn" id="exportBtn" role="button"><i class="fa-solid fa-download has-text-primary is-size-4"></i></div>
                 <div class="btn" id="settingsBtn" role="button"><i class="fa-solid fa-gears has-text-primary is-size-4"></i></div>
             </div>
         </div>
@@ -135,6 +136,30 @@
                     </label>
                 </div>
                 <p class="is-size-65 has-text-centered has-text-grey">All changes will be saved directly</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="full-shadowBg trans" id="exportPop">
+        <div class="is-relative popup">
+            <div class="popupbar">
+                <i class="fa-solid fa-xmark xmark" id="exportClose"></i>
+                <p class="title is-5 has-text-centered has-text-grey is-marginless">Choose Export Method</p>
+                <div class="is-flex is-justify-content-space-between is-align-items-center">
+                    <div class="is-flex-grow-1 flex-half" role="button">
+                        <div class="has-text-centered boxHalf" id="jsonFormateExport">
+                            <i class="fa-regular fa-file-code is-size-3"></i>
+                            <p class="is-size-5 has-text-weight-semibold">JSON</p>
+                        </div>
+                    </div>
+                    <div class="is-flex-grow-1 flex-half" role="button">
+                        <div class="has-text-centered boxHalf" id="txtFormateExport">
+                            <i class="fa-regular fa-file-lines is-size-3"></i>
+                            <p class="is-size-5 has-text-weight-semibold">Text</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="is-size-65 has-text-centered has-text-grey">Exporting in JSON will allow you import it here in future</p>
             </div>
         </div>
     </div>

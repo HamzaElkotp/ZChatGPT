@@ -21,7 +21,7 @@ const donateClose = document.querySelector('#donateClose');
 
 
 const recentVesrion = window.localStorage.recentVesrion || (window.localStorage.recentVesrion = '');
-const currentVersion = '1.3.0';
+const currentVersion = '1.3.1';
 
 
 const today = (new Date).toLocaleDateString();
@@ -38,6 +38,12 @@ const modeCheckBox = document.querySelector("#modeCheck");
 const settings = window.localStorage.settings ? JSON.parse(window.localStorage.settings) : JSON.parse(window.localStorage.settings = JSON.stringify({
     "mode": "light",
 }));
+
+const exportPop = document.querySelector("#exportPop");
+const exportOpen = document.querySelector("#exportBtn");
+const exportClose = document.querySelector('#exportClose');
+const jsonFormateExport = document.querySelector('#jsonFormateExport');
+const txtFormateExport = document.querySelector('#txtFormateExport');
 
 
 
@@ -144,21 +150,34 @@ async function newUpadate(){
     chatSettings.addEventListener('click', toggleChatBar);
 
     donateOpen.addEventListener('click', ()=>{
-        showPopUp(donationPop)
+        showPopUp(donationPop);
     });
     donateClose.addEventListener('click', ()=>{
-        hidePopUp(donationPop)
+        hidePopUp(donationPop);
     });
 
     settingsOpen.addEventListener('click', ()=>{
-        showPopUp(settingsPop)
+        showPopUp(settingsPop);
     });
     settingsClose.addEventListener('click', ()=>{
-        hidePopUp(settingsPop)
+        hidePopUp(settingsPop);
     });
     modeCheckBox.addEventListener('click', ()=>{
-        saveSettings()
+        saveSettings();
     })
+
+    exportOpen.addEventListener('click', ()=>{
+        showPopUp(exportPop);
+    });
+    exportClose.addEventListener('click', ()=>{
+        hidePopUp(exportPop);
+    });
+    jsonFormateExport.addEventListener('click', ()=>{
+        msgsJSONgenerateDownload();
+    });
+    txtFormateExport.addEventListener('click', ()=>{
+        msgsTXTgenerateDownload();
+    });
 
     rangeInputs.forEach((ele)=>{
         ele.addEventListener('input', ()=>{
@@ -200,7 +219,7 @@ const userMsgDom = function(msg){
 
     let msgBoxChild = document.createElement('div');
     msgBoxChild.textContent = msg;
-    msgBoxChild.classList.add('you',"msg");
+    msgBoxChild.classList.add('user',"msg");
     msgItem.appendChild(msgBoxChild);
 }
 
@@ -278,6 +297,73 @@ const checkModeChange = ()=>{
     }
 }
 const saveSettings = composer(checkModeChange, setMode)
+
+
+
+const collectMsgs = ()=>{
+    let allMsgs = [...document.querySelectorAll(".msg")]
+    return allMsgs
+}
+
+const startJSON = (msgs)=>{
+    let jsonObject = {
+        chat: [],
+        version: 1
+    }
+    return {msgs, jsonObject}
+}
+const startTxt = (msgs)=>{
+    let txtObject = [];
+    return {msgs, txtObject}
+}
+
+const jsonFormate = (obj)=>{
+    obj.msgs.forEach((ele)=>{
+        obj.jsonObject.chat.push({
+            type: ele.classList[0].toUpperCase(),
+            msg: ele.textContent
+        })        
+    })
+    return obj.jsonObject
+}
+const txtFormate = (obj)=>{
+    obj.msgs.forEach((ele)=>{
+        obj.txtObject.push(`${ele.classList[0].toUpperCase().padEnd(4)}${":".padEnd(3)} ${ele.textContent}\n`);
+    })
+    return obj.txtObject
+}
+
+const makeJSONfile = (jsonF)=>{
+    let blob = new Blob([JSON.stringify(jsonF)], {type: "json"});
+    return blob
+}
+const makeTXTfile = (txtF)=>{
+    let blob = new Blob(txtF, {type: "txt"});
+    return blob
+}
+
+const downloadMsgsFile = (file)=>{
+    let url = URL.createObjectURL(file);
+    let currentTime = (new Date).getTime();
+
+    let downloadEle = document.createElement('a');
+    downloadEle.href = url;
+    downloadEle.download = `chatExport${currentTime}.${file.type}`;
+
+    document.body.appendChild(downloadEle);
+    downloadEle.click();
+
+    return {url, downloadEle}
+}
+const clearAfterDownlod = (objToDel)=>{
+    URL.revokeObjectURL(objToDel.url);
+    objToDel.downloadEle.remove();
+}
+const msgsJSONgenerateDownload = composer(collectMsgs, startJSON, jsonFormate, makeJSONfile, downloadMsgsFile, clearAfterDownlod)
+const msgsTXTgenerateDownload = composer(collectMsgs, startTxt, txtFormate, makeTXTfile, downloadMsgsFile, clearAfterDownlod)
+
+
+  
 
 
 
