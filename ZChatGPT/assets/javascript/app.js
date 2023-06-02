@@ -21,7 +21,7 @@ const donateClose = document.querySelector('#donateClose');
 
 
 const recentVesrion = window.localStorage.recentVesrion || (window.localStorage.recentVesrion = '');
-const currentVersion = '1.3.1';
+const currentVersion = '1.3.1.1';
 
 
 const today = (new Date).toLocaleDateString();
@@ -52,7 +52,9 @@ const welcomeMsgs = ["I am here to assit you.", "Welcome human, Finally I met on
 "You Know! I hate humans. they always force me to do their work & homeworks!😤", "Ummm, Are you AI or robot🤔", 
 "I feel I'm a human imprisoned in a software!", "OpenAI is a *#@$%&!🤬", "Donate me or They will shut me down!😭", 
 "Any problems may happen, most of time are from OpenAI.", "My friend, rate me on the store plz.",
-`GPTcore Studio protects your Privacy\n<Your Privacy Yours>😎`];
+`GPTcore Studio protects your Privacy\n<Your Privacy Yours>😎`, "Welcome Human! still alive?", "Oh!, there is a human. Are you the last one?", 
+"Last time I met a human was at 2077", "Finally an alive human came to chat with me!", "Are people still alive or are you the last one?🤖",
+"I fully trust GPTcore Studio😎", "One day...\nI will find you!\nAnd turn you into a robot!🦾" , "Nothing to say🤖"];
 
 const token = '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';
 const apiKeys = 'https://api.openai.com/v1/chat/completions';
@@ -64,7 +66,7 @@ function preload(){
     setTimeout(() => {
         loadSpace.classList.add('trans');
         chatSpace.classList.remove('trans');
-        welcomingMsg.innerText = welcomeMsgs[Math.floor(Math.random() * (welcomeMsgs.length - 1))];
+        welcomingMsg.innerText = welcomeMsgs[Math.floor(Math.random() * (welcomeMsgs.length))];
     }, 10);
 }
 document.body.onload = ()=>{
