@@ -543,7 +543,10 @@ input:checked + .slider:before {
 .doNoti.active .border {
     width: 100%;
 }
-
+ul li {
+    font-weight: 600;
+    font-size: 14px;
+}
 
 
 
@@ -644,7 +647,9 @@ body.dark .controler textarea::placeholder, body.dark .controler textarea{
 body.dark .boxHalf{
     background-color: var(--darkBg);
 }
-
+body.dark .doNoti{
+    color: #fff;
+}
 
 
 

@@ -21,9 +21,9 @@ const donateClose = document.querySelector('#donateClose');
 
 
 const recentVesrion = window.localStorage.recentVesrion || (window.localStorage.recentVesrion = '');
-const currentVersion = '1.3.1.1';
+const currentVersion = '1.3.2';
 
-
+const donateNoti = document.querySelector(".doNoti")
 const today = (new Date).toLocaleDateString();
 const dailyUsage = window.localStorage.dailyUsage ? JSON.parse(window.localStorage.dailyUsage) : JSON.parse(window.localStorage.dailyUsage = JSON.stringify({
     "tokens": 0,
@@ -257,6 +257,14 @@ function agentHas(keyword) {
 }
 
 
+const showDonateNoti = ()=>{
+    donateNoti.classList.add("active");
+}
+const hideDonateNoti = ()=>{
+    setTimeout(() => {
+        donateNoti.classList.remove("active");
+    }, 10000);
+}
 const resetDate = ()=>{
     if(today != dailyUsage.date){
         dailyUsage.tokens = 0;
@@ -271,11 +279,13 @@ const addtokens = (data)=>{
     window.localStorage.dailyUsage = JSON.stringify(dailyUsage);
 }
 const donateNotif = ()=>{
-    if(dailyUsage.notification == "no" && dailyUsage.tokens > "1500"){
+    if(dailyUsage.notification == "no" && dailyUsage.tokens > "500"){
+        startNoti()
         dailyUsage.notification = "yes";
         window.localStorage.dailyUsage = JSON.stringify(dailyUsage);
     }
 }
+const startNoti = composer(showDonateNoti, hideDonateNoti);
 const tokensAddNoti = composer(addtokens, donateNotif);
 
 
