@@ -21,7 +21,7 @@ const donateClose = document.querySelector('#donateClose');
 
 
 const recentVesrion = window.localStorage.recentVesrion || (window.localStorage.recentVesrion = '');
-const currentVersion = '1.3.2';
+const currentVersion = '1.4.0';
 
 const donateNoti = document.querySelector(".doNoti")
 const today = (new Date).toLocaleDateString();
@@ -47,18 +47,19 @@ const txtFormateExport = document.querySelector('#txtFormateExport');
 
 
 
-const welcomeMsgs = ["I am here to assit you.", "Welcome human, Finally I met one🥳.", "Please donate me by clicking 'support us' button.💖", 
-"Noooo, human again! noooo my tokens will end soon😫", "You must be happy for being human getting AI help😏", "You are My Brother in AI",
-"You Know! I hate humans. they always force me to do their work & homeworks!😤", "Ummm, Are you AI or robot🤔", 
-"I feel I'm a human imprisoned in a software!", "OpenAI is a *#@$%&!🤬", "Donate me or They will shut me down!😭", 
-"Any problems may happen, most of time are from OpenAI.", "My friend, rate me on the store plz.",
-`GPTcore Studio protects your Privacy\n<Your Privacy Yours>😎`, "Welcome Human! still alive?", "Oh!, there is a human. Are you the last one?", 
-"Last time I met a human was at 2077", "Finally an alive human came to chat with me!", "Are people still alive or are you the last one?🤖",
-"I fully trust GPTcore Studio😎", "One day...\nI will find you!\nAnd turn you into a robot!🦾" , "Nothing to say🤖"];
+const welcomeMsgs = ["I am here to assit you.", "Finally an alive human came to chat with me!", "Welcome human, Finally I met one🥳.", "Last time I met a human was at 2077", 
+"Please donate me by clicking 'support us' button.💖", "Noooo, human again! noooo my tokens will end soon😫" , 
+"Nothing to say🤖", "You must be happy for being human getting AI help😏", "I fully trust GPTcore Studio😎", "You are My Brother in AI",
+"You Know! I hate humans. they always force me to do their work & homeworks!😤", "Are people still alive or are you the last one?🤖", "Ummm, Are you AI or robot🤔", 
+"I feel I'm a human imprisoned in a software!", "Welcome Human! still alive?", "OpenAI is a *#@$%&!🤬", "Donate me or They will shut me down!😭",
+"One day...\nI will find you!\nAnd turn you into a robot!🦾", "Any problems may happen, most of time are from OpenAI.", "My friend, rate me on the store plz.",
+`GPTcore Studio protects your Privacy\n<Your Privacy Yours>😎`, "Oh!, there is a human. Are you the last one?"];
 
-const token = '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';
+const token = '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';
 const apiKeys = 'https://api.openai.com/v1/chat/completions';
-
+const global = {
+    aiMsg: null
+}
 
 
 
@@ -201,19 +202,26 @@ const composer = function(...funcs) {
 
 
 
-const gptMsgTaker = function(resp){
-    return resp.choices[0].message.content;
-}
-const gptMsgDom = function(msg){
+const gptMsgDom = function(){
     let msgItem = document.createElement('div'); 
     msgCont.appendChild(msgItem);
     msgItem.classList.add('msgboxCont');
 
     let msgBoxChild = document.createElement('div');
-    msgBoxChild.textContent = msg;
+    // msgBoxChild.textContent = msg;
     msgBoxChild.classList.add('ai',"msg");
     msgItem.appendChild(msgBoxChild);
+    global.aiMsg = msgBoxChild;
 }
+function gptMsgPusher(line){
+    let theLine = line.choices[0].delta.content
+    if(theLine){
+        global.aiMsg.textContent += line.choices[0].delta.content;
+        return theLine.split(" ").length
+    }
+    return 0
+}
+
 const userMsgDom = function(msg){
     let msgItem = document.createElement('div'); 
     msgCont.appendChild(msgItem);
@@ -274,8 +282,8 @@ const resetDate = ()=>{
     }
     
 }
-const addtokens = (data)=>{
-    dailyUsage.tokens += data.usage.total_tokens;
+const addtokens = (tokensNum)=>{
+    dailyUsage.tokens += Math.floor(((tokensNum*10)/7));
     window.localStorage.dailyUsage = JSON.stringify(dailyUsage);
 }
 const donateNotif = ()=>{
@@ -375,58 +383,59 @@ const msgsJSONgenerateDownload = composer(collectMsgs, startJSON, jsonFormate, m
 const msgsTXTgenerateDownload = composer(collectMsgs, startTxt, txtFormate, makeTXTfile, downloadMsgsFile, clearAfterDownlod)
 
 
-  
 
 
 
-const pushTmsgCont = composer(gptMsgTaker, gptMsgDom);
-function apiFetcher(APIurl, key, mthd, msg, fun){
-    async function fetchAPI(apiURL){
-        const response = await fetch(apiURL,{
-            method: mthd,
-            headers: {
-                'Authorization': `Bearer ${key}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                model: modelInput.value,
-                messages: [{role: roleInput.value, content: msg}],
-                temperature: +rangeInputs[0].value,
-                top_p: +rangeInputs[1].value,
-                presence_penalty: +rangeInputs[2].value,
-                frequency_penalty: +rangeInputs[3].value
-            }),
-        });
+async function fetchAPI(msg, fun){
+    const response = await fetch(apiKeys,{
+        method: "POST",
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            model: modelInput.value,
+            messages: [{role: roleInput.value, content: msg}],
+            stream: true,
+            temperature: +rangeInputs[0].value,
+            top_p: +rangeInputs[1].value,
+            presence_penalty: +rangeInputs[2].value,
+            frequency_penalty: +rangeInputs[3].value
+        }),
+    });
 
-        if(!response.ok){
-            return 
+
+    const reader = response.body.getReader(); // getting reader on response
+    const decoder = new TextDecoder("utf-8");
+    fun()
+
+    let tokensNum = 0
+
+    while(true){ // loop on the reader chunks
+        const chunk = await reader.read() // read reader
+        const {done, value} = chunk;
+        if(done){
+            break
         }
-        return await response.json()
+        const decoded = decoder.decode(value); // decode
+        const lines = decoded.split("\n");
+        const filteredLines = lines
+        .map((line) => line.replace(/^data: /,"").trim())
+        .filter((line) => line !== "" && line !== "[DONE]")
+        .map((line) => JSON.parse(line))
+        .map((line) => tokensNum+=gptMsgPusher(line))    
     }
-    fetchAPI(APIurl)
-    .then((response)=>{
-        if(response != undefined){
-            tokensAddNoti(response)
-            fun(response)
-        }
-    })
+    tokensAddNoti(tokensNum)
 }
 
 try{
     submitBTN.addEventListener('click',()=>{
         let input = textInput.value;
         if(input.length == 0) return;
-        welcomeBox.classList.add('trans')
+        welcomeBox.classList.add('trans');
         textInput.value = '';
         userMsgDom(input);
-        apiFetcher(apiKeys, token, 'POST', input, pushTmsgCont)
+        addtokens(input.split(" ").length);
+        fetchAPI(input, gptMsgDom);
     })
 }catch(e){}
-
-
-
-
-
-
-
-
