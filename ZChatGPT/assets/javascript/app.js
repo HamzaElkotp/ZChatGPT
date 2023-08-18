@@ -21,7 +21,7 @@ const donateClose = document.querySelector('#donateClose');
 
 
 const recentVesrion = window.localStorage.recentVesrion || (window.localStorage.recentVesrion = '');
-const currentVersion = '1.4.0';
+const currentVersion = '1.4.1';
 
 const donateNoti = document.querySelector(".doNoti")
 const today = (new Date).toLocaleDateString();
@@ -55,7 +55,7 @@ const welcomeMsgs = ["I am here to assit you.", "Finally an alive human came to 
 "One day...\nI will find you!\nAnd turn you into a robot!🦾", "Any problems may happen, most of time are from OpenAI.", "My friend, rate me on the store plz.",
 `GPTcore Studio protects your Privacy\n<Your Privacy Yours>😎`, "Oh!, there is a human. Are you the last one?"];
 
-const token = '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';
+const token = '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';
 const apiKeys = 'https://api.openai.com/v1/chat/completions';
 const global = {
     aiMsg: null
@@ -425,7 +425,12 @@ async function fetchAPI(msg, fun){
         .map((line) => JSON.parse(line))
         .map((line) => tokensNum+=gptMsgPusher(line))    
     }
-    tokensAddNoti(tokensNum)
+    tokensAddNoti(tokensNum);
+    scrollToBottomOfElement()
+}
+
+function scrollToBottomOfElement() {
+    msgCont.scrollTop = msgCont.scrollHeight;
 }
 
 try{
