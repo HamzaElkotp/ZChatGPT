@@ -424,7 +424,7 @@ input:checked + .slider:before {
     z-index: 90;
 }
 .trnsShowBG::after{
-    background-image: url('/assets/images/vectors/Half.png');
+    background-image: url('/assets/images/Half.png');
     width: 220px;
     height: 220px;
     top: 51px;
@@ -435,7 +435,7 @@ input:checked + .slider:before {
     animation-iteration-count: infinite;
 }
 .trnsShowBG::before{
-    background-image: url('/assets/images/vectors/Cube.png');
+    background-image: url('/assets/images/Cube.png');
     width: 150px;
     height: 150px;
     bottom: -20px;
@@ -450,7 +450,7 @@ input:checked + .slider:before {
     position: relative
 }
 .popuper::after{
-    background-image: url('/assets/images/vectors/Ball.png');
+    background-image: url('/assets/images/Ball.png');
     width: 120px;
     height: 120px;
     animation-name: ball;
@@ -609,45 +609,48 @@ body, .load, .controler, .update, .popupbar{
 .load span, .msgBox p, .update p, .has-text-warning-dark, .has-text-danger-dark, .controler textarea::placeholder, .controler textarea {
     transition: 0.5s color;
 }
-body.dark {
+html.dark {
     background-color: var(--darkBg) !important;
 }
-body.dark .load{
+html.dark body{
+    background-color: var(--darkBg) !important;
+}
+html.dark .load{
     background-color: var(--darkBg);
 }
-body.dark .load span{
+html.dark .load span{
     color: var(--gray50) !important;
 }
-body.dark .msgBox p{
+html.dark .msgBox p{
     color: var(--gray50);
 }
-body.dark .controler{
+html.dark .controler{
     background-color: var(--darkfo);
 }
-body.dark .update {
+html.dark .update {
     background: rgba(79, 79, 79, 0.25);
     color: var(--graybg);
 }
-body.dark .update p{
+html.dark .update p{
     color: var(--graybg);
 }
-body.dark .popupbar {
+html.dark .popupbar {
     background-color: var(--darkGreen);
     color: var(--gray50);
 }
-body.dark .has-text-warning-dark {
+html.dark .has-text-warning-dark {
     color: #f7b400 !important;
 }
-body.dark .has-text-danger-dark {
+html.dark .has-text-danger-dark {
     color: #f03 !important;
 }
-body.dark .controler textarea::placeholder, body.dark .controler textarea{
+html.dark .controler textarea::placeholder, html.dark .controler textarea{
     color: var(--gray50) !important;
 }
-body.dark .boxHalf{
+html.dark .boxHalf{
     background-color: var(--darkBg);
 }
-body.dark .doNoti{
+html.dark .doNoti{
     color: #fff;
 }
 

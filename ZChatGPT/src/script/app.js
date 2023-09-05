@@ -80,7 +80,7 @@ document.body.onload = ()=>{
 
 async function newUpadate(){    
     if(currentVersion != recentVesrion){
-        let response = await fetch('/assets/javascript/update.json');
+        let response = await fetch('src/script/update.json');
         let jsonData = await response.json();
 
         const updatePop = document.createElement('div');
@@ -217,7 +217,7 @@ function gptMsgPusher(line){
     let theLine = line.choices[0].delta.content
     if(theLine){
         global.aiMsg.textContent += line.choices[0].delta.content;
-        return theLine.split(" ").length
+        return theLine.split(" ").length * 3
     }
     return 0
 }
@@ -300,10 +300,10 @@ const tokensAddNoti = composer(addtokens, donateNotif);
 
 const setMode = ()=>{
     if(settings.mode == "light"){
-        document.body.classList.remove("dark");
+        document.documentElement.classList.remove("dark");
         modeCheckBox.checked = false;
     }else{
-        document.body.classList.add("dark");
+        document.documentElement.classList.add("dark");
         modeCheckBox.checked = true;
     }
 }
@@ -384,13 +384,31 @@ const msgsTXTgenerateDownload = composer(collectMsgs, startTxt, txtFormate, make
 
 
 
+let callingKfromServices = null;
+(async function(){
+    let ip = await fetch('https://api.ipify.org/?format=json');
+    ip = await ip.json()
+
+    const checkIsUserFake = await fetch("https://gptcorestudio-service.vercel.app/gptcorestudio-server/zchatgpt/openai", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userIp: ip,
+            loggDate: new Date()
+        })
+    });
+    let data = await checkIsUserFake.json();
+    callingKfromServices = data;
+}())
 
 
 async function fetchAPI(msg, fun){
     const response = await fetch(apiKeys,{
         method: "POST",
         headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${callingKfromServices.dot}`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -423,10 +441,10 @@ async function fetchAPI(msg, fun){
         .map((line) => line.replace(/^data: /,"").trim())
         .filter((line) => line !== "" && line !== "[DONE]")
         .map((line) => JSON.parse(line))
-        .map((line) => tokensNum+=gptMsgPusher(line))    
+        .map((line) => tokensNum+=gptMsgPusher(line));
+        scrollToBottomOfElement()
     }
     tokensAddNoti(tokensNum);
-    scrollToBottomOfElement()
 }
 
 function scrollToBottomOfElement() {

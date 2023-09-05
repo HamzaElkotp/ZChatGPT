@@ -4,16 +4,16 @@
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>ZChatGPT | GPT everywhere</title>
-    <link rel="shortcut icon" href="/assets/logo/icon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/images/icon48.png" type="image/x-icon">
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='/assets/style/main.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='/assets/style/bulma.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='/assets/style/all.min.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/src/style/main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/src/style/bulma.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/src/style/all.min.css'>
 </head>
 <body>
     <div class="conatiner load" id="load">
         <div class="centeredBox">
-            <img src="/assets/logo/icon128.png" alt="">
+            <img src="/assets/images/icon128.png" alt="">
             <p class="authorname"><span class="powered">by</span> <span class="fnames">GPT</span>core Studio</p>
         </div>
     </div>
@@ -94,7 +94,7 @@
 
             <div class="controler innerContainer is-flex">
                 <button class="settings contbtn" id="settings"><i class="fa-solid fa-sliders"></i></button>
-                <textarea name="userMSG" id="userMsg" class="input" placeholder="Write anything here to chat!"></textarea>
+                <textarea name="userMSG" id="userMsg" class="input" placeholder="Write anything here to chat!" maxlength="2000"></textarea>
                 <button class="sendBTN contbtn" id="submitBTN"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </section>
@@ -170,4 +170,4 @@
     </div>
 </body>
 </html>
-<script src='/assets/javascript/app.js'></script>
+<script src='/src/script/app.js'></script>
