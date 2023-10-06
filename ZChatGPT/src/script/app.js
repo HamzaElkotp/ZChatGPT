@@ -103,7 +103,17 @@ async function newUpadate(){
     
             const versionNum = document.createElement('p');
             versionNum.classList.add("title", "is-4", "has-text-centered", "par1", "para3");
-            versionNum.innerHTML = jsonData["version"];
+
+            const p6 = document.createElement('span');
+            p6.textContent = jsonData["version"]["date"];
+            p6.classList.add("is-size-6")
+            versionNum.appendChild(p6);
+            versionNum.append(" Version ");
+            const p5 = document.createElement('span');
+            p5.classList.add("is-size-5")
+            p5.textContent = jsonData["version"]["version"];
+            versionNum.appendChild(p5);
+            // versionNum.innerText = jsonData["version"];
     
             const notaa = document.createElement('p');
             notaa.classList.add("nota", "notato");
@@ -122,7 +132,12 @@ async function newUpadate(){
 
             const contact = document.createElement('p');
             contact.classList.add("nota", "notato");
-            contact.innerHTML = jsonData["contact"];
+
+            contact.append("For problems and sugessions contact us on ");
+            const supportEmail = document.createElement('span');
+            supportEmail.textContent = jsonData["contact"];
+            supportEmail.classList.add("has-text-success")
+            contact.appendChild(supportEmail);
     
             const removerBtn = document.createElement('button');
             removerBtn.classList.add("button", "is-primary", "buttones");
