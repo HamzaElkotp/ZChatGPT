@@ -654,6 +654,8 @@ html.dark .doNoti{
     color: #fff;
 }
 
-
+.trnsShowBG .update{
+    background: rgb(255 255 255 / 62%);
+}
 
 

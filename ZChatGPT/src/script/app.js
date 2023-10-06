@@ -21,7 +21,7 @@ const donateClose = document.querySelector('#donateClose');
 
 
 const recentVesrion = window.localStorage.recentVesrion || (window.localStorage.recentVesrion = '');
-const currentVersion = '1.4.1';
+const currentVersion = '1.4.4.3';
 
 const donateNoti = document.querySelector(".doNoti")
 const today = (new Date).toLocaleDateString();
@@ -289,7 +289,7 @@ const addtokens = (tokensNum)=>{
 const donateNotif = ()=>{
     if(dailyUsage.notification == "no" && dailyUsage.tokens > "500"){
         startNoti()
-        dailyUsage.notification = "yes";
+        // dailyUsage.notification = "yes";
         window.localStorage.dailyUsage = JSON.stringify(dailyUsage);
     }
 }
@@ -384,8 +384,13 @@ const msgsTXTgenerateDownload = composer(collectMsgs, startTxt, txtFormate, make
 
 
 
-let callingKfromServices = null;
-(async function(){
+
+
+let fetchAPI = getAPIReady();
+
+async function getAPIReady(){
+    let callingKfromServices = null;
+
     let ip = await fetch('https://api.ipify.org/?format=json');
     ip = await ip.json()
 
@@ -401,51 +406,53 @@ let callingKfromServices = null;
     });
     let data = await checkIsUserFake.json();
     callingKfromServices = data;
-}())
 
-
-async function fetchAPI(msg, fun){
-    const response = await fetch(apiKeys,{
-        method: "POST",
-        headers: {
-            'Authorization': `Bearer ${callingKfromServices.dot}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            model: modelInput.value,
-            messages: [{role: roleInput.value, content: msg}],
-            stream: true,
-            temperature: +rangeInputs[0].value,
-            top_p: +rangeInputs[1].value,
-            presence_penalty: +rangeInputs[2].value,
-            frequency_penalty: +rangeInputs[3].value
-        }),
-    });
-
-
-    const reader = response.body.getReader(); // getting reader on response
-    const decoder = new TextDecoder("utf-8");
-    fun()
-
-    let tokensNum = 0
-
-    while(true){ // loop on the reader chunks
-        const chunk = await reader.read() // read reader
-        const {done, value} = chunk;
-        if(done){
-            break
+    async function fetchAPIfunction(msg, fun){
+        const response = await fetch(apiKeys,{
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${callingKfromServices.dot}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                model: modelInput.value,
+                messages: [{role: roleInput.value, content: msg}],
+                stream: true,
+                temperature: +rangeInputs[0].value,
+                top_p: +rangeInputs[1].value,
+                presence_penalty: +rangeInputs[2].value,
+                frequency_penalty: +rangeInputs[3].value,
+                max_tokens: 200
+            }),
+        });
+    
+        const reader = response.body.getReader(); // getting reader on response
+        const decoder = new TextDecoder("utf-8");
+        fun()
+    
+        let tokensNum = 0
+    
+        while(true){ // loop on the reader chunks
+            const chunk = await reader.read() // read reader
+            const {done, value} = chunk;
+            if(done){
+                break
+            }
+            const decoded = decoder.decode(value); // decode
+            const lines = decoded.split("\n");
+            const filteredLines = lines
+            .map((line) => line.replace(/^data: /,"").trim())
+            .filter((line) => line !== "" && line !== "[DONE]")
+            .map((line) => JSON.parse(line))
+            .map((line) => tokensNum+=gptMsgPusher(line));
+            scrollToBottomOfElement()
         }
-        const decoded = decoder.decode(value); // decode
-        const lines = decoded.split("\n");
-        const filteredLines = lines
-        .map((line) => line.replace(/^data: /,"").trim())
-        .filter((line) => line !== "" && line !== "[DONE]")
-        .map((line) => JSON.parse(line))
-        .map((line) => tokensNum+=gptMsgPusher(line));
-        scrollToBottomOfElement()
+        tokensAddNoti(tokensNum);
     }
-    tokensAddNoti(tokensNum);
+    fetchAPI = fetchAPIfunction
+    return fetchAPI
 }
+
 
 function scrollToBottomOfElement() {
     msgCont.scrollTop = msgCont.scrollHeight;
