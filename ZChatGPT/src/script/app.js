@@ -5,6 +5,9 @@ const welcomingMsg = document.querySelector('#welcommsg');
 const chatSettings = document.querySelector('#settings');
 const apiContoleBar = document.querySelector('.apiControls')
 
+const sidebarbox = document.querySelector("#sidebarbox");
+const sidebarToggler = document.querySelector("#sidebar-toggler");
+
 const submitBTN = document.querySelector('#submitBTN');
 const msgCont = document.querySelector("#msgBox");
 const textInput = document.querySelector("#userMsg");
@@ -21,7 +24,7 @@ const donateClose = document.querySelector('#donateClose');
 
 
 const recentVesrion = window.localStorage.recentVesrion || (window.localStorage.recentVesrion = '');
-const currentVersion = '1.4.4.3';
+const currentVersion = '1.4.4.4';
 
 const donateNoti = document.querySelector(".doNoti")
 const today = (new Date).toLocaleDateString();
@@ -165,6 +168,9 @@ async function newUpadate(){
 
 
 (function (){
+
+    sidebarToggler.addEventListener('click', toggleSideBar)
+
     chatSettings.addEventListener('click', toggleChatBar);
 
     donateOpen.addEventListener('click', ()=>{
@@ -175,9 +181,11 @@ async function newUpadate(){
     });
 
     settingsOpen.addEventListener('click', ()=>{
+        settingsOpen.classList.toggle('active');
         showPopUp(settingsPop);
     });
     settingsClose.addEventListener('click', ()=>{
+        settingsOpen.classList.toggle('active');
         hidePopUp(settingsPop);
     });
     modeCheckBox.addEventListener('click', ()=>{
@@ -260,6 +268,12 @@ function valueHide(element){
 
 function toggleChatBar(element){
     apiContoleBar.classList.toggle("trans");
+    chatSettings.classList.toggle("active");
+}
+
+function toggleSideBar(element){
+    sidebarbox.classList.toggle("active");
+    sidebarToggler.classList.toggle("opened");
 }
 
 function showPopUp(e){
@@ -406,8 +420,8 @@ let fetchAPI = getAPIReady();
 async function getAPIReady(){
     let callingKfromServices = null;
 
-    let ip = await fetch('https://api.ipify.org/?format=json');
-    ip = await ip.json()
+    // let ip = await fetch('https://api.ipify.org/?format=json');
+    // ip = await ip.json()
 
     const checkIsUserFake = await fetch("https://gptcorestudio-service.vercel.app/gptcorestudio-server/zchatgpt/openai", {
         method: "POST",
@@ -415,7 +429,7 @@ async function getAPIReady(){
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            userIp: ip,
+            userIp: null,
             loggDate: new Date()
         })
     });

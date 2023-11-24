@@ -1,14 +1,14 @@
 {
     "title": "We Are Back Again🥳",
     "version": {
-        "date": "25th Aug",
-        "version": "1.4.4"
+        "date": "8th Oct",
+        "version": "1.4.4.4"
     },
     "note": "Every Month There Is A Major Update",
     "newNote": "See What Is New:👇",
     "features": [
-        "Service are working again"
+        "Fix Security Issues."
     ],
     "contact": "support@gptcorestudio.com",
-    "buttonMsg": "Continue Using"
+    "buttonMsg": "Ok"
 }

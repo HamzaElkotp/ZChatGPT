@@ -1,4 +1,5 @@
 :root{
+    --green-light: #01c1a4;
     --gLightbg: #00aa91;
     --gLightbgD: #007462;
     --darkGreen: #101311;
@@ -44,22 +45,38 @@ body,html{
     background-color: var(--graybg) !important;
 }
 .conatiner{
-    min-width: 420px;
+    min-width: 500px;
     padding: 12px 0 0 0;
     margin-bottom: 0;
     transition: opacity 0.8s;
 }
 .chat{
-    height: 500px;
+    height: 480px;
     overflow-y: auto;
     padding-bottom: 10px;
     padding-top: 10px;
+    padding-left: 18px !important;
+    padding-right: 5px !important;
+    width: 424px;
+    transition: 0.6s filter;
 }
+
+
 .innerContainer{
     padding-left: 12px;
     padding-right: 12px;
     padding-bottom: 5px;
 }
+.pl-0{
+    padding-left: 0 !important;
+}
+.pr-0{
+    padding-right: 0 !important;
+}
+.pb-0{
+    padding-bottom: 0 !important;
+}
+
 
 .msg {
     width: fit-content;
@@ -120,10 +137,198 @@ body,html{
 }
 
 
+
+.conatiner.chatapp{
+    padding: 8px;
+}
+.columns{
+    margin: 0 !important;
+}
+.sidebarbox {
+    max-width: fit-content;
+    /* padding-right: 8px !important; */
+}
+.sidebar {
+    height: 100%;
+    width: 60px;
+    background: var(--whiteBg);
+    border-radius: 12px;
+    /* padding: 0.75rem; */
+    position: relative;
+    transition: width 0.4s;
+}
+.sidebarbox.active .sidebar{
+    width: 220px;
+}
+.sidebarbox.active + .the-chat-box .chat{
+    filter: blur(1.5px);
+}
+.sidebar-toggler{
+    position: absolute;
+    top: 50%;
+    left: calc(100%);
+    color: var(--green-light);
+    font-size: 20px;
+    cursor: pointer !important;
+    z-index: 100;
+    width: 20px;
+    height: 50px;
+    align-items: self-start !important;
+    padding-left: 5px;
+    justify-content: center;
+    transform: translateY(-50%);
+}
+
+.chat-list{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 360px;
+    margin-right: -10px;
+}
+.sidebar-list{
+    padding: 0.75rem 0.65rem;
+}
+.sidebarbox.active .sidebar-list{
+    padding: 0.75rem;
+}
+.sidebarbox.active .chat-list-parent{
+    padding-right: 1.3rem !important;
+}
+.sidebar-label{
+    color: var(--swiftBlack);
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 13px;
+}
+.sidebar-list .sidebar-item{
+    padding: 8px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    height: 38px;
+    justify-content: center !important;
+}
+
+.sidebar-list .sidebar-item.btn-item{
+    border: 2px solid var(--gLightbg);
+    color: var(--swiftBlack);
+    transition: 0.25s border, 0.25s color, 0.25s background;
+}
+.sidebar-list .sidebar-item.btn-item i {
+    color: var(--gLightbg);
+    transition: 0.25s color;
+}
+.sidebar-item.btn-item.active, .sidebar-item.btn-item:hover{
+    border: 2px solid var(--green-light);
+    background-color: var(--green-light);
+    color: var(--whiteBg);
+}
+.sidebar-item.btn-item.active i, .sidebar-item.btn-item:hover i{
+    color: var(--swiftBlack);
+}
+
+.sidebar-list.chat-list-parent .sidebar-item{
+    width: calc(60px - 1.3rem) !important;
+    transition: 0.4s width;
+}
+.sidebar-item + .sidebar-item{
+    margin-top: 5px;
+}
+.sidebarbox.active .sidebar-item {
+    padding: 8px 10px;
+    justify-content: space-between !important;
+    width: 100% !important;
+}
+
+
+.sidebar-list .sidebar-item:not(.btn-item){
+    background: #01c1a42e;
+    transition: 0.25s;
+}
+.sidebar-list .sidebar-item:not(.btn-item) i{
+    transition: 0.25s;
+}
+.sidebar-list .sidebar-item:not(.btn-item).active, .sidebar-list .sidebar-item:not(.btn-item):hover{
+    background: var(--green-light);
+    color: var(--graybg);
+}
+
+.sidebarbox:not(.active) .sidebar-list:not(.chat-list-parent) .btn-name{
+    display: none;
+}
+.sidebarbox .sidebar-list.chat-list-parent .btn-name{
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space: nowrap;
+    padding-right: 5px;
+}
+.sidebarbox:not(.active) .sidebar-list.chat-list-parent .btn-icon{
+    display: none;
+}
+
+
+
+
+.stick{
+    width: 5px;
+    height: 14px;
+    border-radius: 20px;
+    background-color: var(--green-light);
+}
+.stick.top{
+    transform: translateY(0.15rem) rotate(-18deg) translateZ(0px);
+    transition: 0.3s transform;
+}
+.stick.bottom{
+    transform: translateY(-0.15rem) rotate(18deg) translateZ(0px);
+    transition: 0.3s transform, 0.3s height;
+}
+
+.sidebar-toggler:not(.opened):hover .stick.top{
+    transform: translateY(1px) rotate(0) translateZ(0px);
+    height: 18px;
+}
+.sidebar-toggler:not(.opened):hover .stick.bottom{
+    transform: translateY(-1px) rotate(0) translateZ(0px);
+    height: 18px;
+}
+
+.sidebar-toggler.opened .stick.top{
+    transform: translateY(1px) rotate(0) translateZ(0px);
+    height: 18px;
+}
+.sidebar-toggler.opened .stick.bottom{
+    transform: translateY(-1px) rotate(0) translateZ(0px);
+    height: 18px;
+}
+
+.sidebar-toggler.opened:hover .stick.top{
+    transform: translateY(0.15rem) rotate(18deg) translateZ(0px);
+    height: 14px;
+}
+.sidebar-toggler.opened:hover .stick.bottom{
+    transform: translateY(-0.15rem) rotate(-18deg) translateZ(0px);
+    height: 14px;
+}
+
+
+.chat-layouts {
+    margin-bottom: 3px !important;
+    width: 484px;
+    overflow-x: hidden;
+}
+.chat-layouts .column {
+    padding-bottom: 8px !important;
+    padding: 0;
+}
+
+
+
+
 .controler{
     background-color: #fff;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding: 6px;
+    border-radius: 12px;
 }
 .controler .input{
     resize: vertical;
@@ -155,8 +360,13 @@ body,html{
     font-size: 17px;
 }
 .sendBTN{
-    padding-left: 10px;
-    color: var(--gLightbg);
+    border-radius: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-left: 10px;
+    transition: background 0.3s;
+    background-color: var(--green-light);
+    color: var(--whiteBg);
 }
 
 
@@ -208,17 +418,53 @@ body,html{
     font-size: 19px;
     padding-right: 15px;
     color: var(--gLightbg);
+    margin-right: 5px;
 }
+.squar-button{
+    border-radius: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    transition: background 0.3s;
+    width: 43px;
+    height: 40px;
+}
+.squar-button:hover, .squar-button.active{
+    background-color: var(--green-light);
+    color: var(--whiteBg);
+}
+
+
+.navbtn{
+    width: 36px;
+    height: 32px;
+    text-align: center;
+    border: 1px solid var(--gLightbg);
+    border-radius: 10px;
+}
+.navbtn i{
+    line-height: 32px;
+    font-size: 18px !important;
+    color: var(--gLightbg);
+}
+.navbtn:hover{
+    background-color: var(--gLightbg);
+}
+.navbtn:hover i{
+    color: var(--whiteBg);
+}
+
 .apiControls {
-    background-color: var(--swiftBlack);
+    background-color: #363636f7;
     width: 200px;
     height: fit-content;
     position: absolute;
     left: 0;
-    bottom: 100%;
+    bottom: calc(100% + 11px);
     padding: 14px 12px;
-    border-radius: 0 10px 0 0;
+    border-radius: 12px;
     transition: 0.5s all;
+    z-index: 101;
+    box-shadow: 0px 0px 8px -3px #01c1a46e;
 }
 .apiControls.trans{
     opacity: 0;
@@ -256,7 +502,7 @@ body,html{
     width: 100%;
     height: 100vh;
     background-color: var(--tSwiftBlack);
-    z-index: 1001px;
+    z-index: 1001;
     top: 0;
     transition: 0.25s;
 }
@@ -316,6 +562,10 @@ i.donate{
 .donate{
     font-size: 13px !important;
     font-weight: 700 !important;
+    background-color: var(--green-light) !important;
+}
+.has-text-primary{
+    color: var(--green-light) !important;
 }
 
 hr {
@@ -554,6 +804,14 @@ ul li {
     font-size: 14px;
 }
 
+.button{
+    border-radius: 10px !important;
+}
+
+
+
+
+
 
 
 @keyframes half {
@@ -652,6 +910,31 @@ html.dark .boxHalf{
 }
 html.dark .doNoti{
     color: #fff;
+}
+html.dark .sidebar{
+    background-color: var(--darkfo);
+}
+html.dark .sidebar-label{
+    color: var(--whiteBg);
+}
+
+html.dark .sidebar-list .sidebar-item.btn-item {
+    color: var(--gray50);
+}
+html.dark .sidebar-item.btn-item.active, html.dark .sidebar-item.btn-item:hover{
+    color: var(--whiteBg) !important;
+}
+
+html.dark .sidebar-list .sidebar-item:not(.btn-item) {
+    background: #01c1a41f;
+    color: var(--gray50);
+}
+html.dark .sidebar-list .sidebar-item:not(.btn-item).active, html.dark .sidebar-list .sidebar-item:not(.btn-item):hover{
+    background: var(--green-light);
+    color: var(--graybg);
+}
+html.dark .sidebar-list .sidebar-item:not(.btn-item).active i, html.dark .sidebar-list .sidebar-item:not(.btn-item):hover i{
+    color: var(--swiftBlack);
 }
 
 .trnsShowBG .update{

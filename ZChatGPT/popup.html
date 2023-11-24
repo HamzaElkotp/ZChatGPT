@@ -6,8 +6,8 @@
     <title>ZChatGPT | GPT everywhere</title>
     <link rel="shortcut icon" href="/assets/images/icon48.png" type="image/x-icon">
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='/src/style/main.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='/src/style/bulma.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/src/style/main.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='/src/style/all.min.css'>
 </head>
 <body>
@@ -19,19 +19,60 @@
     </div>
 
     <div class="conatiner chatapp trans" id="chatapp">
-        <div class="innerContainer is-flex is-justify-content-space-between is-align-items-center">
-            <div class="button is-primary is-small donate" id="donateBtn">Support us <i class="fa-solid fa-circle-dollar-to-slot donate"></i></div>
-            <div class="is-flex">
-                <div class="btn" id="exportBtn" role="button"><i class="fa-solid fa-download has-text-primary is-size-4"></i></div>
-                <div class="btn" id="settingsBtn" role="button"><i class="fa-solid fa-gears has-text-primary is-size-4"></i></div>
+        <div class="columns is-flex chat-layouts">
+            <div class="column sidebarbox" id="sidebarbox">
+                <div class="sidebar">
+                    <div class="is-flex is-flex-direction-column is-align-items-center sidebar-toggler" id="sidebar-toggler">
+                        <div class="stick top"></div>
+                        <div class="stick bottom"></div>
+                    </div>
+                    
+                    <div class="sidebar-list pb-0">
+                        <div class="sidebar-item btn-item is-flex is-align-items-center" id="newChat" role="button">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span class="btn-name">New Chat</span>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-list chat-list-parent">
+                        <p class="sidebar-label">Histroy</p>
+                        <div class="chat-list">
+                            <div class="sidebar-item is-flex is-align-items-center chat-item" chatid="123232424" role="button">
+                                <span class="btn-name">JS code to make API request</span>
+                                <span class="btn-icon"><i class="fa-solid fa-grip-vertical"></i></span>
+                            </div>
+                            <div class="sidebar-item is-flex is-align-items-center chat-item" chatid="123232424" role="button">
+                                <span class="btn-name">Installing Nodejs</span>
+                                <span class="btn-icon"><i class="fa-solid fa-grip-vertical"></i></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="sidebar-list">
+                        <div class="sidebar-item btn-item is-flex is-align-items-center" id="settingsBtn" role="button">
+                            <i class="fa-solid fa-gear"></i>
+                            <span class="btn-name">Settings</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="chat msgBox is-relative innerContainer" id="msgBox">
-            <div class="centeredBox starter" id="welcomeBox">
-                <i class="is-size-1 has-text-primary fa-solid fa-robot" style="opacity: 0.8"></i>
-                <p class="is-size-6" id="welcommsg"></p>
-                <p class="is-size-6">Write anything to start</p>
+            
+            <div class="column the-chat-box">
+                <div class="innerContainer pr-0 pb-0 is-flex is-justify-content-space-between is-align-items-center">
+                    <div class="button is-primary is-small donate" id="donateBtn">Support ZChatGPT <i class="fa-solid fa-hand-holding-dollar donate"></i></div>
+                    <div class="is-flex">
+                        <div class="btn navbtn" id="exportBtn" role="button"><i class="fa-solid fa-download"></i></div>
+                    </div>
+                </div>
+                
+                <div class="chat msgBox is-relative" id="msgBox">
+                    <div class="centeredBox starter" id="welcomeBox">
+                        <i class="is-size-1 has-text-primary fa-solid fa-robot" style="opacity: 0.8"></i>
+                        <p class="is-size-6" id="welcommsg"></p>
+                        <p class="is-size-6">Write anything to start</p>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -92,8 +133,8 @@
                 </div>
             </form>
 
-            <div class="controler innerContainer is-flex">
-                <button class="settings contbtn" id="settings"><i class="fa-solid fa-sliders"></i></button>
+            <div class="controler is-flex">
+                <button class="settings contbtn squar-button" id="settings"><i class="fa-solid fa-sliders"></i></button>
                 <textarea name="userMSG" id="userMsg" class="input" placeholder="Write anything here to chat!" maxlength="1250"></textarea>
                 <button class="sendBTN contbtn" id="submitBTN"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
@@ -135,7 +176,6 @@
                         <span class="slider round"></span>
                     </label>
                 </div>
-                <p class="is-size-65 has-text-centered has-text-grey">All changes will be saved directly</p>
             </div>
         </div>
     </div>

@@ -1,14 +1,14 @@
 {
-    "manifest_version": 3,
-    "name": "Free ChatGPT for Google Chrome - ZChatGPT",
+    "manifest_version": 2,
+    "name": "Free ChatGPT for Fire Fox - ZChatGPT",
     "description": "A simple extension to allow browser users to use ChatGPT in any tab without the need to open ChatGPT or having an account.",
-    "version": "1.4.4.3",
+    "version": "1.4.4.4",
     "icons":{
         "16": "assets/images/icon16.png",
         "48": "assets/images/icon48.png",
         "128": "assets/images/icon128.png"
     },
-    "action": {
+    "browser_action": {
         "default_popup": "popup.html"
     } 
 }
