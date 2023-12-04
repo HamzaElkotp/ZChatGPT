@@ -161,7 +161,7 @@ body,html{
     width: 220px;
 }
 .sidebarbox.active + .the-chat-box .chat{
-    filter: blur(1.5px);
+    filter: blur(1.15px);
 }
 .sidebar-toggler{
     position: absolute;
@@ -227,6 +227,8 @@ body,html{
     color: var(--swiftBlack);
 }
 
+
+
 .sidebar-list.chat-list-parent .sidebar-item{
     width: calc(60px - 1.3rem) !important;
     transition: 0.4s width;
@@ -253,6 +255,53 @@ body,html{
     color: var(--graybg);
 }
 
+
+.chat-control-wrapper{
+    opacity: 0;
+    transition: 0.3s opacity;
+
+    position: absolute;
+    background: var(--graybg);
+    width: 150px;
+    height: fit-content;
+    left: 100%;
+    margin-left: 5px;
+    border-radius: 10px;
+    z-index: 1000;
+    border: 1px solid 1px solid #fff;
+    box-shadow: 0px 0px 16px -3px rgba(0, 0, 0, 0.36);
+    margin-top: 60px;
+    padding: 6px;
+}
+.chat-control-wrapper.active{
+    opacity: 1;
+}
+
+.button.wrapper-button {
+    width: 100%;
+    justify-content: start;
+    padding: 8px .625rem;
+    background: transparent;
+    border: transparent;
+    height: fit-content;
+    transition: 0.3s;
+    border-radius: 7px !important;
+    font-size: .875rem;
+    font-weight: 500;
+}
+.button.wrapper-button + .button.wrapper-button{
+    margin-top: 5px;
+}
+.button.wrapper-button:hover {
+    background-color: var(--whiteBg);
+}
+.button.wrapper-button i{
+    padding-right: 10px;
+    width: 28px;
+}
+
+
+
 .sidebarbox:not(.active) .sidebar-list:not(.chat-list-parent) .btn-name{
     display: none;
 }
@@ -261,6 +310,15 @@ body,html{
     overflow: hidden; 
     white-space: nowrap;
     padding-right: 5px;
+}
+
+.btn-icon {
+    padding: 10px;
+    margin-right: -10px;
+    display: none;
+}
+.sidebarbox.active .sidebar-item.chat-item.active .btn-icon{
+    display: block !important;
 }
 .sidebarbox:not(.active) .sidebar-list.chat-list-parent .btn-icon{
     display: none;
@@ -310,6 +368,13 @@ body,html{
     transform: translateY(-0.15rem) rotate(-18deg) translateZ(0px);
     height: 14px;
 }
+
+
+
+
+
+
+
 
 
 .chat-layouts {
@@ -936,6 +1001,19 @@ html.dark .sidebar-list .sidebar-item:not(.btn-item).active, html.dark .sidebar-
 html.dark .sidebar-list .sidebar-item:not(.btn-item).active i, html.dark .sidebar-list .sidebar-item:not(.btn-item):hover i{
     color: var(--swiftBlack);
 }
+
+
+html.dark .chat-control-wrapper{
+    background-color: var(--swiftBlack);
+    border: 1px solid #707070;
+}
+html.dark .button.wrapper-button {
+    color: var(--gray50);
+}
+html.dark .button.wrapper-button:hover {
+    background-color: var(--darkBg);
+}
+
 
 .trnsShowBG .update{
     background: rgb(255 255 255 / 62%);

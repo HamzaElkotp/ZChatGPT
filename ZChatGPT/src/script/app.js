@@ -498,3 +498,46 @@ try{
         fetchAPI(input, gptMsgDom);
     })
 }catch(e){}
+
+
+
+
+
+
+
+// Expermintal code not final one, to just test wrapper and show the basic logic of it, then it will be changed a bit!
+const all_chats_control = [...document.querySelectorAll("[chatid-control]")];
+const all_chats = [...document.querySelectorAll("[chatid]")];
+const chat_control_wrapper = document.getElementById("chat_control_wrapper");
+const chat_list = document.getElementById("chat_list");
+
+
+function open_chat(chatbox, targeted){
+    // un active the activated chat
+    chat_list.querySelector('[chatid].active')?.classList.remove("active");
+
+    // Activate a new chat
+    let chat_id = chatbox.getAttribute("chatid");
+    chatbox.classList.add("active");
+
+    // hide the opened wrapper from the past opened chat
+    if(targeted == chatbox){
+        chat_control_wrapper.classList.remove("active");
+    }
+
+    // move the wrapper to the current opened chat
+    chat_control_wrapper.setAttribute("current-chat-id", chat_id);
+    chatbox.appendChild(chat_control_wrapper);
+}
+
+all_chats.forEach((chat)=>{
+    chat.addEventListener('click', (e)=>{
+        open_chat(chat, e.target);
+    })
+})
+
+all_chats_control.forEach((ele)=>{
+    ele.addEventListener('click', ()=>{
+        chat_control_wrapper.classList.toggle("active");
+    })
+})

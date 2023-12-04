@@ -36,14 +36,20 @@
 
                     <div class="sidebar-list chat-list-parent">
                         <p class="sidebar-label">Histroy</p>
-                        <div class="chat-list">
+                        <div class="chat-list" id="chat_list">
                             <div class="sidebar-item is-flex is-align-items-center chat-item" chatid="123232424" role="button">
                                 <span class="btn-name">JS code to make API request</span>
-                                <span class="btn-icon"><i class="fa-solid fa-grip-vertical"></i></span>
+                                <span class="btn-icon" chatid-control><i class="fa-solid fa-grip-vertical"></i></span>
+                                
                             </div>
-                            <div class="sidebar-item is-flex is-align-items-center chat-item" chatid="123232424" role="button">
+                            <div class="sidebar-item is-flex is-align-items-center chat-item" chatid="2443234" role="button">
                                 <span class="btn-name">Installing Nodejs</span>
-                                <span class="btn-icon"><i class="fa-solid fa-grip-vertical"></i></span>
+                                <span class="btn-icon" chatid-control><i class="fa-solid fa-grip-vertical"></i></span>
+                                <div class="chat-control-wrapper" id="chat_control_wrapper" current-chat-id="2443234">
+                                    <button class="button wrapper-button"><i class="fa-regular fa-pen-to-square has-text-info"></i> Edit Chat</button>
+                                    <button class="button wrapper-button" id="exportBtn"><i class="fa-solid fa-cloud-arrow-down has-text-primary"></i> Export Chat</button>
+                                    <button class="button wrapper-button has-text-danger"><i class="fa-regular fa-trash-can has-text-danger"></i> Delete Chat</button>
+                                </div>
                             </div>
 
                         </div>
@@ -61,9 +67,9 @@
             <div class="column the-chat-box">
                 <div class="innerContainer pr-0 pb-0 is-flex is-justify-content-space-between is-align-items-center">
                     <div class="button is-primary is-small donate" id="donateBtn">Support ZChatGPT <i class="fa-solid fa-hand-holding-dollar donate"></i></div>
-                    <div class="is-flex">
+                    <!-- <div class="is-flex">
                         <div class="btn navbtn" id="exportBtn" role="button"><i class="fa-solid fa-download"></i></div>
-                    </div>
+                    </div> -->
                 </div>
                 
                 <div class="chat msgBox is-relative" id="msgBox">
