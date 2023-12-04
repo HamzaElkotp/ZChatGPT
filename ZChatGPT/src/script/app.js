@@ -512,18 +512,28 @@ const chat_control_wrapper = document.getElementById("chat_control_wrapper");
 const chat_list = document.getElementById("chat_list");
 
 
-function open_chat(chatbox, targeted){
+function show_hide_control_wrapper(){
+    let hide_timer = 0;
+    let active_timer = 10;
+    if(chat_control_wrapper.classList.contains('active')){
+        active_timer = hide_timer;
+        hide_timer = 300;
+    }
+    setTimeout(() => {
+        chat_control_wrapper.classList.toggle("hide");
+    }, hide_timer);
+    setTimeout(() => {
+        chat_control_wrapper.classList.toggle("active");
+    }, active_timer);
+}
+
+function open_chat(chatbox){
     // un active the activated chat
     chat_list.querySelector('[chatid].active')?.classList.remove("active");
 
     // Activate a new chat
     let chat_id = chatbox.getAttribute("chatid");
     chatbox.classList.add("active");
-
-    // hide the opened wrapper from the past opened chat
-    if(targeted == chatbox){
-        chat_control_wrapper.classList.remove("active");
-    }
 
     // move the wrapper to the current opened chat
     chat_control_wrapper.setAttribute("current-chat-id", chat_id);
@@ -532,12 +542,12 @@ function open_chat(chatbox, targeted){
 
 all_chats.forEach((chat)=>{
     chat.addEventListener('click', (e)=>{
-        open_chat(chat, e.target);
+        open_chat(chat);
     })
 })
 
 all_chats_control.forEach((ele)=>{
     ele.addEventListener('click', ()=>{
-        chat_control_wrapper.classList.toggle("active");
+        show_hide_control_wrapper()
     })
 })
