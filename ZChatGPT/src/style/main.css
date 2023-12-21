@@ -461,7 +461,8 @@ body,html{
     pointer-events: none;
     transition: opacity 0.5s;
     width: 100%;
-    padding: 0 15px
+    padding: 0 15px;
+    pointer-events: none !important;
 }
 .centeredBox img{
     width: 140px;
@@ -961,7 +962,7 @@ html.dark .update p{
     color: var(--graybg);
 }
 html.dark .popupbar {
-    background-color: var(--darkGreen);
+    background-color: var(--darkBg);
     color: var(--gray50);
 }
 html.dark .has-text-warning-dark {

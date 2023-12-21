@@ -11,6 +11,7 @@ const sidebarToggler = document.querySelector("#sidebar-toggler");
 const submitBTN = document.querySelector('#submitBTN');
 const msgCont = document.querySelector("#msgBox");
 const textInput = document.querySelector("#userMsg");
+const chat_container = document.getElementById("chat_container");
 
 
 const modelInput = document.querySelector('#modelInput');
@@ -58,30 +59,39 @@ const welcomeMsgs = ["I am here to assit you.", "Finally an alive human came to 
 "One day...\nI will find you!\nAnd turn you into a robot!🦾", "Any problems may happen, most of time are from OpenAI.", "My friend, rate me on the store plz.",
 `GPTcore Studio protects your Privacy\n<Your Privacy Yours>😎`, "Oh!, there is a human. Are you the last one?"];
 
-const token = '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';
-const apiKeys = 'https://api.openai.com/v1/chat/completions';
+// const token = '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';
+const URL = 'https://api.openai.com/v1/chat/completions';
 const global = {
     aiMsg: null
 }
 
 
 
+// Composer function, Functional Programming
+const composer = function(...funcs) {
+    return function(value) {
+        return funcs.reduce((acc, func) => func(acc), value);
+    }
+}
+
+
+
+const insert_welcomMsg = function(){
+    if(chat_container.childNodes.length > 0){
+        welcomingMsg.innerText = welcomeMsgs[Math.floor(Math.random() * (welcomeMsgs.length))];
+    }
+}
+
 function preload(){
     setTimeout(() => {
         loadSpace.classList.add('trans');
         chatSpace.classList.remove('trans');
-        welcomingMsg.innerText = welcomeMsgs[Math.floor(Math.random() * (welcomeMsgs.length))];
+        insert_welcomMsg();
     }, 10);
 }
-document.body.onload = ()=>{
-    preload();
-    newUpadate();
-    resetDate();
-    setMode();
-};
 
 
-async function newUpadate(){    
+async function newUpadate(){
     if(currentVersion != recentVesrion){
         let response = await fetch('src/script/update.json');
         let jsonData = await response.json();
@@ -167,74 +177,26 @@ async function newUpadate(){
 }
 
 
-(function (){
-
-    sidebarToggler.addEventListener('click', toggleSideBar)
-
-    chatSettings.addEventListener('click', toggleChatBar);
-
-    donateOpen.addEventListener('click', ()=>{
-        showPopUp(donationPop);
-    });
-    donateClose.addEventListener('click', ()=>{
-        hidePopUp(donationPop);
-    });
-
-    settingsOpen.addEventListener('click', ()=>{
-        settingsOpen.classList.toggle('active');
-        showPopUp(settingsPop);
-    });
-    settingsClose.addEventListener('click', ()=>{
-        settingsOpen.classList.toggle('active');
-        hidePopUp(settingsPop);
-    });
-    modeCheckBox.addEventListener('click', ()=>{
-        saveSettings();
-    })
-
-    exportOpen.addEventListener('click', ()=>{
-        showPopUp(exportPop);
-    });
-    exportClose.addEventListener('click', ()=>{
-        hidePopUp(exportPop);
-    });
-    jsonFormateExport.addEventListener('click', ()=>{
-        msgsJSONgenerateDownload();
-    });
-    txtFormateExport.addEventListener('click', ()=>{
-        msgsTXTgenerateDownload();
-    });
-
-    rangeInputs.forEach((ele)=>{
-        ele.addEventListener('input', ()=>{
-            valueChange(ele);
-        })
-        ele.addEventListener('mouseup', ()=>{
-            valueHide(ele);
-        })
-    })
-}());
 
 
 
-const composer = function(...funcs) {
-    return function(value) {
-        return funcs.reduce((acc, func) => func(acc), value);
-    }
-}
 
 
 
 const gptMsgDom = function(){
     let msgItem = document.createElement('div'); 
-    msgCont.appendChild(msgItem);
+    chat_container.appendChild(msgItem);
     msgItem.classList.add('msgboxCont');
-
+    
     let msgBoxChild = document.createElement('div');
-    // msgBoxChild.textContent = msg;
     msgBoxChild.classList.add('ai',"msg");
+
+    let text_box = document.createElement("p");
+
+    msgBoxChild.appendChild(text_box);
     msgItem.appendChild(msgBoxChild);
-    global.aiMsg = msgBoxChild;
+
+    global.aiMsg = text_box;
 }
 function gptMsgPusher(line){
     let theLine = line.choices[0].delta.content
@@ -247,13 +209,16 @@ function gptMsgPusher(line){
 
 const userMsgDom = function(msg){
     let msgItem = document.createElement('div'); 
-    msgCont.appendChild(msgItem);
+    chat_container.appendChild(msgItem);
     msgItem.classList.add('msgboxContR');
 
     let msgBoxChild = document.createElement('div');
-    msgBoxChild.textContent = msg;
     msgBoxChild.classList.add('user',"msg");
     msgItem.appendChild(msgBoxChild);
+
+    let text_box = document.createElement("p");
+    text_box.textContent = msg;
+    msgBoxChild.appendChild(text_box);
 }
 
 function valueChange(element){
@@ -392,7 +357,7 @@ const makeTXTfile = (txtF)=>{
 }
 
 const downloadMsgsFile = (file)=>{
-    let url = URL.createObjectURL(file);
+    let url = window.URL.createObjectURL(file);
     let currentTime = (new Date).getTime();
 
     let downloadEle = document.createElement('a');
@@ -405,7 +370,7 @@ const downloadMsgsFile = (file)=>{
     return {url, downloadEle}
 }
 const clearAfterDownlod = (objToDel)=>{
-    URL.revokeObjectURL(objToDel.url);
+    window.URL.revokeObjectURL(objToDel.url);
     objToDel.downloadEle.remove();
 }
 const msgsJSONgenerateDownload = composer(collectMsgs, startJSON, jsonFormate, makeJSONfile, downloadMsgsFile, clearAfterDownlod)
@@ -437,7 +402,7 @@ async function getAPIReady(){
     callingKfromServices = data;
 
     async function fetchAPIfunction(msg, fun){
-        const response = await fetch(apiKeys,{
+        const response = await fetch(URL,{
             method: "POST",
             headers: {
                 'Authorization': `Bearer ${callingKfromServices.dot}`,
@@ -487,11 +452,19 @@ function scrollToBottomOfElement() {
     msgCont.scrollTop = msgCont.scrollHeight;
 }
 
+function hide_welcomeBox(){
+    welcomeBox.classList.add('trans');
+}
+function show_welcomeBox(){
+    welcomeBox.classList.remove('trans');
+}
+
+
 try{
     submitBTN.addEventListener('click',()=>{
         let input = textInput.value;
         if(input.length == 0) return;
-        welcomeBox.classList.add('trans');
+        hide_welcomeBox();
         textInput.value = '';
         userMsgDom(input);
         addtokens(input.split(" ").length);
@@ -510,6 +483,7 @@ const all_chats_control = [...document.querySelectorAll("[chatid-control]")];
 const all_chats = [...document.querySelectorAll("[chatid]")];
 const chat_control_wrapper = document.getElementById("chat_control_wrapper");
 const chat_list = document.getElementById("chat_list");
+const current_chat_id = document.querySelector("[current_chat_id]")
 
 
 function show_hide_control_wrapper(){
@@ -538,6 +512,8 @@ function open_chat(chatbox){
     // move the wrapper to the current opened chat
     chat_control_wrapper.setAttribute("current-chat-id", chat_id);
     chatbox.appendChild(chat_control_wrapper);
+
+    current_chat_id.setAttribute("current_chat_id", chatbox.getAttribute("chatid"))
 }
 
 all_chats.forEach((chat)=>{
@@ -550,4 +526,146 @@ all_chats_control.forEach((ele)=>{
     ele.addEventListener('click', ()=>{
         show_hide_control_wrapper()
     })
-})
+});
+
+
+
+
+
+// Open DataBase for storing Chat, Using IndexedDb
+
+const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+const request = window.indexedDB.open("UserChatsDB", 1);
+
+request.onerror = (event) => {
+    // To handel Error
+};
+request.onupgradeneeded = (event) => {
+    const db = request.result;
+    const store = db.createObjectStore("chats", {keyPath: "id", autoIncrement: true});
+    // Create Index to these three to be able to search by them in future
+    store.createIndex("chat_name", ["name"], {unique: false});
+    store.createIndex("created_At", ["createdAt"], {unique: false});
+    store.createIndex("edited_At", ["editedAt"], {unique: false});
+
+    // store.createIndex("chat_messages", ["messages"], {unique: false});
+};
+request.onsuccess = async (event) => {
+    const db = request.result;
+
+    const transaction = db.transaction("chats", "readwrite");
+
+    const store = transaction.objectStore("chats");
+
+    const chat_name = store.index("chat_name");
+    const created_At = store.index("created_At");
+    const edited_At = store.index("edited_At");
+    // const chat_messages = store.index("chat_messages");
+
+
+    // Way of how to store new chat
+    // store.put({chat_name: "new_chat", created_At: new Date, edited_At: new Date,chat_messages: [
+    //     {
+    //         sender: "USER",
+    //         content: "Hi"
+    //     },
+    //     {
+    //         sender: "AI",
+    //         content: "welcom"
+    //     }
+    // ]});
+
+    // Way of how to get a chat by id
+    // const num6 = await store.get(6);
+    // console.log(num6)
+
+    
+    // transaction.oncomplete = function () {
+    //     db.close();
+    // }
+};
+
+
+
+
+
+
+
+
+
+
+const newChat = document.getElementById("newChat");
+
+const clear_chat = function(){
+    chat_container.replaceChildren(...[]);
+}
+
+const init_new_chat = composer(clear_chat, show_welcomeBox, insert_welcomMsg);
+
+
+newChat.addEventListener('click', init_new_chat);
+
+
+
+
+
+
+
+
+
+
+document.body.onload = ()=>{
+    preload();
+    newUpadate();
+    resetDate();
+    setMode();
+};
+
+
+(function (){
+
+    sidebarToggler.addEventListener('click', toggleSideBar)
+
+    chatSettings.addEventListener('click', toggleChatBar);
+
+    donateOpen.addEventListener('click', ()=>{
+        showPopUp(donationPop);
+    });
+    donateClose.addEventListener('click', ()=>{
+        hidePopUp(donationPop);
+    });
+
+    settingsOpen.addEventListener('click', ()=>{
+        settingsOpen.classList.toggle('active');
+        showPopUp(settingsPop);
+    });
+    settingsClose.addEventListener('click', ()=>{
+        settingsOpen.classList.toggle('active');
+        hidePopUp(settingsPop);
+    });
+    modeCheckBox.addEventListener('click', ()=>{
+        saveSettings();
+    })
+
+    exportOpen.addEventListener('click', ()=>{
+        showPopUp(exportPop);
+    });
+    exportClose.addEventListener('click', ()=>{
+        hidePopUp(exportPop);
+    });
+    jsonFormateExport.addEventListener('click', ()=>{
+        msgsJSONgenerateDownload();
+    });
+    txtFormateExport.addEventListener('click', ()=>{
+        msgsTXTgenerateDownload();
+    });
+
+    rangeInputs.forEach((ele)=>{
+        ele.addEventListener('input', ()=>{
+            valueChange(ele);
+        })
+        ele.addEventListener('mouseup', ()=>{
+            valueHide(ele);
+        })
+    })
+}());

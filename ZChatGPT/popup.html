@@ -37,19 +37,22 @@
                     <div class="sidebar-list chat-list-parent">
                         <p class="sidebar-label">Histroy</p>
                         <div class="chat-list" id="chat_list">
-                            <div class="sidebar-item is-flex is-align-items-center chat-item" chatid="123232424" role="button">
-                                <span class="btn-name">JS code to make API request</span>
+                            <!-- Basic Chat Item Template -->
+                            <div class="sidebar-item is-flex is-align-items-center chat-item is-hidden" chatid="#######" role="button" id="chat_item_template">
+                                <span class="btn-name">New Chat</span>
                                 <span class="btn-icon" chatid-control><i class="fa-solid fa-grip-vertical"></i></span>
-                                
-                            </div>
-                            <div class="sidebar-item is-flex is-align-items-center chat-item" chatid="2443234" role="button">
-                                <span class="btn-name">Installing Nodejs</span>
-                                <span class="btn-icon" chatid-control><i class="fa-solid fa-grip-vertical"></i></span>
-                                <div class="chat-control-wrapper hide" id="chat_control_wrapper" current-chat-id="2443234">
+                                <div class="chat-control-wrapper hide" id="chat_control_wrapper" current-chat-id="00000000">
                                     <button class="button wrapper-button"><i class="fa-regular fa-pen-to-square has-text-info"></i> Edit Chat</button>
+                                    <button class="button wrapper-button" id="cloneBtn"><i class="fa-solid fa-clone has-text-grey"></i> Clone Chat</button>
                                     <button class="button wrapper-button" id="exportBtn"><i class="fa-solid fa-cloud-arrow-down has-text-primary"></i> Export Chat</button>
                                     <button class="button wrapper-button has-text-danger"><i class="fa-regular fa-trash-can has-text-danger"></i> Delete Chat</button>
                                 </div>
+                            </div>
+
+                            <!-- Other chat will be added here -->
+                            <div class="sidebar-item is-flex is-align-items-center chat-item" chatid="123232424" role="button">
+                                <span class="btn-name">JS code to make API request</span>
+                                <span class="btn-icon" chatid-control><i class="fa-solid fa-grip-vertical"></i></span>
                             </div>
 
                         </div>
@@ -67,16 +70,16 @@
             <div class="column the-chat-box">
                 <div class="innerContainer pr-0 pb-0 is-flex is-justify-content-space-between is-align-items-center">
                     <div class="button is-primary is-small donate" id="donateBtn">Support ZChatGPT <i class="fa-solid fa-hand-holding-dollar donate"></i></div>
-                    <!-- <div class="is-flex">
-                        <div class="btn navbtn" id="exportBtn" role="button"><i class="fa-solid fa-download"></i></div>
-                    </div> -->
                 </div>
                 
-                <div class="chat msgBox is-relative" id="msgBox">
+                <div class="chat msgBox is-relative" id="msgBox" current_chat_id="" >
                     <div class="centeredBox starter" id="welcomeBox">
                         <i class="is-size-1 has-text-primary fa-solid fa-robot" style="opacity: 0.8"></i>
                         <p class="is-size-6" id="welcommsg"></p>
                         <p class="is-size-6">Write anything to start</p>
+                    </div>
+                    <div id="chat_container">
+                        
                     </div>
                 </div>
             </div>
@@ -161,8 +164,8 @@
                 </div>
                 <h1 class="heada">How your donation will help?</h1>
                 <ul>
+                    <li>Adding new expensive AI services for free such as GPT4, GPT-Vision, dall-e & Web Access.</li>
                     <li>Paying for OpenAI API expenses.</li>
-                    <li>Adding new expensive AI services for free such as GPT4 and dall-e.</li>
                     <li>Increasing privacy and security.</li>
                     <li>Developing new free extensions.</li>
                 </ul>
