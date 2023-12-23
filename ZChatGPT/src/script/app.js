@@ -69,8 +69,11 @@ const global = {
 
 // Composer function, Functional Programming
 const composer = function(...funcs) {
-    return function(value) {
-        return funcs.reduce((acc, func) => func(acc), value);
+    return async function(value) {
+        let result = value;
+        for (const func of funcs) {
+            result = await func(result);
+        }
     }
 }
 
@@ -493,6 +496,8 @@ function show_hide_control_wrapper(){
         active_timer = hide_timer;
         hide_timer = 300;
     }
+
+    // To show or hide the control wrapper smoothly
     setTimeout(() => {
         chat_control_wrapper.classList.toggle("hide");
     }, hide_timer);
@@ -502,26 +507,32 @@ function show_hide_control_wrapper(){
 }
 
 function open_chat(chatbox){
-    // un active the activated chat
-    chat_list.querySelector('[chatid].active')?.classList.remove("active");
 
-    // Activate a new chat
-    let chat_id = chatbox.getAttribute("chatid");
-    chatbox.classList.add("active");
-
-    // move the wrapper to the current opened chat
-    chat_control_wrapper.setAttribute("current-chat-id", chat_id);
-    chatbox.appendChild(chat_control_wrapper);
-
-    current_chat_id.setAttribute("current_chat_id", chatbox.getAttribute("chatid"))
+    if(chatbox){
+        // un active the activated chat
+        chat_list.querySelector('[chatid].active')?.classList.remove("active");
+    
+        // Activate a new chat
+        let chat_id = chatbox.getAttribute("chatid");
+        chatbox.classList.add("active");
+    
+        // move the wrapper to the current opened chat
+        chat_control_wrapper.setAttribute("current-chat-id", chat_id);
+        chatbox.appendChild(chat_control_wrapper);
+    
+        // set the chat id in DOM to be a refernce when storing new messages in the DB
+        current_chat_id.setAttribute("current_chat_id", chat_id)
+    }
 }
 
+
+// will be removed
 all_chats.forEach((chat)=>{
     chat.addEventListener('click', (e)=>{
         open_chat(chat);
     })
 })
-
+// will be removed
 all_chats_control.forEach((ele)=>{
     ele.addEventListener('click', ()=>{
         show_hide_control_wrapper()
@@ -533,7 +544,6 @@ all_chats_control.forEach((ele)=>{
 
 
 // Open DataBase for storing Chat, Using IndexedDb
-
 const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
 const request = window.indexedDB.open("UserChatsDB", 1);
 
@@ -543,12 +553,11 @@ request.onerror = (event) => {
 request.onupgradeneeded = (event) => {
     const db = request.result;
     const store = db.createObjectStore("chats", {keyPath: "id", autoIncrement: true});
+
     // Create Index to these three to be able to search by them in future
     store.createIndex("chat_name", ["name"], {unique: false});
     store.createIndex("created_At", ["createdAt"], {unique: false});
     store.createIndex("edited_At", ["editedAt"], {unique: false});
-
-    // store.createIndex("chat_messages", ["messages"], {unique: false});
 };
 request.onsuccess = async (event) => {
     const db = request.result;
@@ -560,29 +569,6 @@ request.onsuccess = async (event) => {
     const chat_name = store.index("chat_name");
     const created_At = store.index("created_At");
     const edited_At = store.index("edited_At");
-    // const chat_messages = store.index("chat_messages");
-
-
-    // Way of how to store new chat
-    // store.put({chat_name: "new_chat", created_At: new Date, edited_At: new Date,chat_messages: [
-    //     {
-    //         sender: "USER",
-    //         content: "Hi"
-    //     },
-    //     {
-    //         sender: "AI",
-    //         content: "welcom"
-    //     }
-    // ]});
-
-    // Way of how to get a chat by id
-    // const num6 = await store.get(6);
-    // console.log(num6)
-
-    
-    // transaction.oncomplete = function () {
-    //     db.close();
-    // }
 };
 
 
@@ -591,20 +577,103 @@ request.onsuccess = async (event) => {
 
 
 
+const new_chat_in_db = async function(ele){
+    // if the chat includes message so you can open new chat, otherwise you are already in a new chat
+    if(chat_container.childNodes.length > 1){
+        // create a new chat in the database
+        const db = request.result;
+        
+        const transaction = db.transaction("chats", "readwrite");
+        
+        const store = transaction.objectStore("chats");
+        
+        return new Promise((resolve, reject)=>{
+            let new_chat = store.put({
+                chat_name: "new_chat", 
+                created_At: new Date, 
+                edited_At: new Date, 
+                chat_messages: []
+            });
+        
+            let chat_id;
+        
+            // If chat creation success, return the chat Id to be used inside the DOM
+            transaction.oncomplete = function(){
+                chat_id = new_chat.result;
+                resolve(chat_id);
+            }
+        
+            // If creation failed throw error to avoid any other errors
+            transaction.onerror = function(){
+                reject("failed");
+                throw new Error('Couldent Create New Chat in DB');
+            }
+        })
+    }
+
+    return "failed"
+}
+
+
+const new_chat_item_template = document.getElementById("chat_item_template");
+
+const new_chat_in_DOM = function(id){
+    // if the chat includes message so you can open new chat, otherwise you are already in a new chat
+    if(chat_container.childNodes.length > 1){
+        // create chatbox in the history box in the slide
+
+        let new_chat_DOM_obj = new_chat_item_template.cloneNode(true);
+        new_chat_DOM_obj.classList.remove("is-hidden");
+
+        // set the new chat id in the dom to be as a refrence to other functions such as toggle control or open the chat
+        new_chat_DOM_obj.setAttribute("chatid", id);
+        chat_list.prepend(new_chat_DOM_obj);
+        
+        return new_chat_DOM_obj
+    }
+}
+
+const activate_chat_click_events = function(chat){
+    // activate this chat when it is clicked.
+    chat?.addEventListener('click', (e)=>{
+        open_chat(chat);
+    })
+
+    // toggle chat_control_wrapper box to control it (when this new chat is cklicked)
+    chat?.querySelector("[chatid-control]").addEventListener('click', ()=>{
+        show_hide_control_wrapper()
+    })
+
+    return chat
+}
+
 
 
 
 const newChat = document.getElementById("newChat");
 
-const clear_chat = function(){
+const clear_old_chat = function(){
+    // Remove all messages in the chat box, so everything will be clear to start writing again
     chat_container.replaceChildren(...[]);
 }
 
-const init_new_chat = composer(clear_chat, show_welcomeBox, insert_welcomMsg);
-
-
+const init_new_chat = composer(new_chat_in_db, new_chat_in_DOM, activate_chat_click_events, open_chat, clear_old_chat, show_welcomeBox, insert_welcomMsg);
 newChat.addEventListener('click', init_new_chat);
+/* 
+    When newChat Button is clicked, init_new_chat() will invoke doing the following: 
+    1- start a new chat in the Database (IndexedDB), If error happened => error will be thrown.
+    2- next, the chat will be started in the DOM (change chat id to the new chat id, create a new chat box in the chat history)
 
+    3- after that, activate_chat_click_events() will activate click events on the new chat box which in history 
+        3.1- toggle chat_control_wrapper box to control it (when it is cklicked)
+        3.2- activate it when it is clicked.
+
+    4- open_chat() to Open the new chat DOM, by adding active classes and like that 
+
+    5- clear_old_chat by removing all messages of the old chat from the DOM.
+    6- Showing the welcome box to show a new message.
+    7- show a new welcom message.
+*/
 
 
 
