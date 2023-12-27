@@ -80,9 +80,7 @@ const composer = function(...funcs) {
 
 
 const insert_welcomMsg = function(){
-    if(chat_container.childNodes.length > 0){
-        welcomingMsg.innerText = welcomeMsgs[Math.floor(Math.random() * (welcomeMsgs.length))];
-    }
+    welcomingMsg.innerText = welcomeMsgs[Math.floor(Math.random() * (welcomeMsgs.length))];
 }
 
 
@@ -330,10 +328,10 @@ const store_ai_message_to_chat_in_db = async function ([chat_object, message]){
             const store = transaction.objectStore("chats");
     
             const update_object = chat_object;
+
+            console.log(update_object.chat_messages.at(-1))
     
-            update_object.chat_messages[-1].push({
-                "AI": message
-            })
+            update_object.chat_messages.at(-1)["AI"] = message;
     
             const putRequest = store.put(update_object);
     
@@ -343,11 +341,11 @@ const store_ai_message_to_chat_in_db = async function ([chat_object, message]){
     
             putRequest.onerror = ()=>{
                 reject("failed");
-                throw new Error("Couldn't store your message DB");
+                throw new Error("Couldn't store AI response to DB");
             }
         })
     } else{
-        throw new Error("Couldn't get chat from DB");
+        throw new Error("Couldn't fetch chat from DB");
     }
 }
 
@@ -814,7 +812,8 @@ async function getAPIReady(){
             scrollToBottomOfElement()
         }
         tokensAddNoti(tokensNum);
-        // store_AI_response_to_DB(full_response);
+        opened_chat_id = current_chat_id.getAttribute("current_chat_id");
+        push_ai_message_into_db(opened_chat_id, full_response);
     }
     fetchAPI = fetchAPIfunction
     return fetchAPI
@@ -840,15 +839,16 @@ try{
         let opened_chat_id = current_chat_id.getAttribute("current_chat_id");
 
         // Check if there is opened chat, so we can put messages in its object in db
-        if(opened_chat_id.length > 0){
+        if(chat_container.children.length >= 0 && opened_chat_id.length > 0){
+            hide_welcomeBox();
             push_user_message_into_db(opened_chat_id, input);
-        } else{
+        } else if(chat_container.children.length == 0 && opened_chat_id.length == 0){
             // if else, so we need to open a new chat
             await start_new_chat_on_send();
             opened_chat_id = current_chat_id.getAttribute("current_chat_id");
             push_user_message_into_db(opened_chat_id, input);
         }
-        // 
+
         textInput.value = '';
         userMsgDom(input);
         addtokens(input.split(" ").length);
