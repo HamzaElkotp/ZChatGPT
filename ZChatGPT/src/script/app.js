@@ -190,6 +190,7 @@ request.onsuccess = async (event) => {
     const chat_name = store.index("chat_name");
     const created_At = store.index("created_At");
     const edited_At = store.index("edited_At");
+    load_history_from_db_to_dom()
 };
 
 
@@ -204,7 +205,7 @@ const new_chat_in_db = async function(ele){
     
     return new Promise((resolve, reject)=>{
         let new_chat = store.put({
-            chat_name: "new_chat", 
+            chat_name: "new chat", 
             created_At: new Date, 
             edited_At: new Date, 
             chat_messages: []
@@ -276,8 +277,11 @@ function extract_text_from_response(line){
 const get_chat_from_db_byID = async function([id, message]){
     return new Promise((resolve, reject)=>{
         const db = request.result;
+
         const transaction = db.transaction("chats", "readwrite");
+
         const store = transaction.objectStore("chats");
+
         const getRequest = store.get(Number(id));
 
         getRequest.onsuccess = ()=>{
@@ -350,12 +354,63 @@ const store_ai_message_to_chat_in_db = async function ([chat_object, message]){
 }
 
 
+
+
+
+
+async function load_chats_from_db() {
+    return new Promise((resolve, reject) => {
+        const db = request.result;
+
+        const transaction = db.transaction("chats", "readonly");
+
+        const store = transaction.objectStore("chats");
+
+        const get_all_chats_request = store.getAll();
+
+        get_all_chats_request.onsuccess = () => {
+            let from_new_to_old = get_all_chats_request.result.reverse();
+            resolve(from_new_to_old);
+        };
+
+        get_all_chats_request.onerror = () => {
+            reject(false);
+            throw new Error("Couldn't load chat from DB");
+        };
+    });
+}
+
+function push_chats_to_dom(all_chats_obj) {
+    all_chats_obj.forEach((ele) => {
+        // create chatbox in the history box in the slide
+        // console.log(ele)
+        let new_chat_DOM_obj = new_chat_item_template.cloneNode(true);
+        new_chat_DOM_obj.classList.remove("is-hidden");
+
+        // set the new chat id in the dom to be as a refrence to other functions such as toggle control or open the chat
+        new_chat_DOM_obj.setAttribute("chatid", ele["id"]);
+        new_chat_DOM_obj.querySelector(".btn-name").textContent = ele["chat_name"];
+
+        activate_chat_click_events(new_chat_DOM_obj);
+
+        chat_list.append(new_chat_DOM_obj);
+    });
+
+}
+
+
+
+
+
+
 const init_new_chat = composer(new_chat_in_db, new_chat_in_DOM, activate_chat_click_events, open_chat, clear_old_chat, show_welcomeBox, insert_welcomMsg);
 
 const start_new_chat_on_send = composer(new_chat_in_db, new_chat_in_DOM, activate_chat_click_events, open_chat, hide_welcomeBox);
 
-const push_user_message_into_db = composer(get_chat_from_db_byID, store_user_message_to_chat_in_db)
-const push_ai_message_into_db = composer(get_chat_from_db_byID, store_ai_message_to_chat_in_db)
+const push_user_message_into_db = composer(get_chat_from_db_byID, store_user_message_to_chat_in_db);
+const push_ai_message_into_db = composer(get_chat_from_db_byID, store_ai_message_to_chat_in_db);
+
+const load_history_from_db_to_dom = composer(load_chats_from_db, push_chats_to_dom);
 
 
 
