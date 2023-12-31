@@ -243,10 +243,12 @@ const new_chat_in_DOM = function(id){
     }
 }
 
+
 const activate_chat_click_events = function(chat){
     // activate this chat when it is clicked.
     chat?.addEventListener('click', (e)=>{
         open_chat(chat);
+        load_achat_messages(chat);
     })
 
     // toggle chat_control_wrapper box to control it (when this new chat is cklicked)
@@ -257,9 +259,10 @@ const activate_chat_click_events = function(chat){
     return chat
 }
 
-const clear_old_chat = function(){
+const clear_old_chat = function(chat){
     // Remove all messages in the chat box, so everything will be clear to start writing again
     chat_container.replaceChildren(...[]);
+    return chat
 }
 
 
@@ -399,7 +402,39 @@ function push_chats_to_dom(all_chats_obj) {
 }
 
 
+async function get_all_message_form_chat(chat){
+    const id = chat[0].getAttribute("chatid");
+    return new Promise((resolve, reject)=>{
+        const db = request.result;
 
+        const transaction = db.transaction("chats", "readonly");
+
+        const store = transaction.objectStore("chats");
+
+        const getRequest = store.get(Number(id));
+
+        getRequest.onsuccess = ()=>{
+            resolve(getRequest.result["chat_messages"])
+        }
+
+        getRequest.onerror = ()=>{
+            reject(false);
+            throw new Error("Couldn't get chat from DB");
+        }
+    })
+}
+
+function push_chat_messages_to_dom(chats_arr){
+    chats_arr.forEach((chatObj)=>{
+        userMsgDom(chatObj["USER"]);
+        gptMsgDom();
+        global.aiMsg.textContent = chatObj["AI"];
+    })
+}
+
+function load_achat_messages(chat) {
+    return composer(clear_old_chat, get_all_message_form_chat, push_chat_messages_to_dom, hide_welcomeBox)(chat);
+}
 
 
 
