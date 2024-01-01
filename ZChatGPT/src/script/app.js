@@ -7,6 +7,7 @@ const apiContoleBar = document.querySelector('.apiControls')
 
 const sidebarbox = document.querySelector("#sidebarbox");
 const sidebarToggler = document.querySelector("#sidebar-toggler");
+const chatDeleteBtn = document.querySelector("#deleteBtn");
 
 const submitBTN = document.querySelector('#submitBTN');
 const msgCont = document.querySelector("#msgBox");
@@ -247,6 +248,7 @@ const new_chat_in_DOM = function(id){
 const activate_chat_click_events = function(chat){
     // activate this chat when it is clicked.
     chat?.addEventListener('click', (e)=>{
+        // if(chat == e.target);
         open_chat(chat);
         load_achat_messages(chat);
     })
@@ -336,7 +338,6 @@ const store_ai_message_to_chat_in_db = async function ([chat_object, message]){
     
             const update_object = chat_object;
 
-            console.log(update_object.chat_messages.at(-1))
     
             update_object.chat_messages.at(-1)["AI"] = message;
     
@@ -386,7 +387,6 @@ async function load_chats_from_db() {
 function push_chats_to_dom(all_chats_obj) {
     all_chats_obj.forEach((ele) => {
         // create chatbox in the history box in the slide
-        // console.log(ele)
         let new_chat_DOM_obj = new_chat_item_template.cloneNode(true);
         new_chat_DOM_obj.classList.remove("is-hidden");
 
@@ -414,12 +414,14 @@ async function get_all_message_form_chat(chat){
         const getRequest = store.get(Number(id));
 
         getRequest.onsuccess = ()=>{
-            resolve(getRequest.result["chat_messages"])
+            if(getRequest.result){
+                resolve(getRequest.result["chat_messages"])
+            }
         }
 
         getRequest.onerror = ()=>{
             reject(false);
-            throw new Error("Couldn't get chat from DB");
+            throw new Error("Couldn't load messages");
         }
     })
 }
@@ -432,9 +434,40 @@ function push_chat_messages_to_dom(chats_arr){
     })
 }
 
-function load_achat_messages(chat) {
-    return composer(clear_old_chat, get_all_message_form_chat, push_chat_messages_to_dom, hide_welcomeBox)(chat);
+
+
+const move_chat_control_wrapper = function(param){
+    chat_list.appendChild(chat_control_wrapper);
+    return param
 }
+const get_opened_chat_id = function(){
+    return current_chat_id.getAttribute("current_chat_id");
+}
+
+const delete_chat_form_db = async function(id){
+    return new Promise((resolve, reject)=>{
+        const db = request.result;
+
+        const transaction = db.transaction("chats", "readwrite");
+
+        const store = transaction.objectStore("chats");
+
+        const getRequest = store.delete(Number(id));
+
+        getRequest.onsuccess = ()=>{
+            resolve(id)
+        }
+
+        getRequest.onerror = ()=>{
+            reject(false);
+            throw new Error("Failed to delete Chat");
+        }
+    })
+}
+const delete_chat_form_dom = function(id){
+    document.querySelector(`[chatid="${id}"]`).remove();
+}
+
 
 
 
@@ -447,7 +480,11 @@ const push_ai_message_into_db = composer(get_chat_from_db_byID, store_ai_message
 
 const load_history_from_db_to_dom = composer(load_chats_from_db, push_chats_to_dom);
 
+function load_achat_messages(chat) {
+    return composer(clear_old_chat, get_all_message_form_chat, push_chat_messages_to_dom, hide_welcomeBox)(chat);
+}
 
+const delete_chat_by_id = composer(show_hide_control_wrapper, get_opened_chat_id, delete_chat_form_db, move_chat_control_wrapper, delete_chat_form_dom);
 
 
 
@@ -473,8 +510,9 @@ newChat.addEventListener('click', ()=>{
     7- show a new welcom message.
 */
 
-
-
+chatDeleteBtn.addEventListener('click', ()=>{
+    delete_chat_by_id()
+});
 
 
 
