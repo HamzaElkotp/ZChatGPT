@@ -8,6 +8,7 @@ const apiContoleBar = document.querySelector('.apiControls')
 const sidebarbox = document.querySelector("#sidebarbox");
 const sidebarToggler = document.querySelector("#sidebar-toggler");
 const chatDeleteBtn = document.querySelector("#deleteBtn");
+const chatCloneBtn = document.querySelector("#cloneBtn")
 
 const submitBTN = document.querySelector('#submitBTN');
 const msgCont = document.querySelector("#msgBox");
@@ -290,6 +291,8 @@ const get_chat_from_db_byID = async function([id, message]){
         const getRequest = store.get(Number(id));
 
         getRequest.onsuccess = ()=>{
+            console.log(id)
+            console.log(getRequest.result)
             resolve([getRequest.result, message])
         }
 
@@ -441,7 +444,7 @@ const move_chat_control_wrapper = function(param){
     return param
 }
 const get_opened_chat_id = function(){
-    return current_chat_id.getAttribute("current_chat_id");
+    return [+current_chat_id.getAttribute("current_chat_id")];
 }
 
 const delete_chat_form_db = async function(id){
@@ -469,6 +472,40 @@ const delete_chat_form_dom = function(id){
 }
 
 
+const clone_chat_to_db = async function([chat_object]){
+    const db = request.result;
+    
+    const transaction = db.transaction("chats", "readwrite");
+    
+    const store = transaction.objectStore("chats");
+    
+    return new Promise((resolve, reject)=>{
+        let new_chat = store.put({
+            chat_name: chat_object["chat_name"], 
+            created_At: new Date, 
+            edited_At: new Date, 
+            chat_messages: chat_object["chat_messages"]
+        });
+    
+        let chat_id;
+    
+        // If chat creation success, return the chat Id to be used inside the DOM
+        transaction.oncomplete = function(){
+            chat_id = new_chat.result;
+            resolve(chat_id);
+        }
+    
+        // If creation failed throw error to avoid any other errors
+        transaction.onerror = function(){
+            reject("failed");
+            throw new Error('Couldent Create New Chat in DB');
+        }
+    })
+}
+
+
+
+
 
 
 const init_new_chat = composer(new_chat_in_db, new_chat_in_DOM, activate_chat_click_events, open_chat, clear_old_chat, show_welcomeBox, insert_welcomMsg);
@@ -485,6 +522,8 @@ function load_achat_messages(chat) {
 }
 
 const delete_chat_by_id = composer(show_hide_control_wrapper, get_opened_chat_id, delete_chat_form_db, move_chat_control_wrapper, delete_chat_form_dom);
+
+const duplicate_chat_by_id = composer(get_opened_chat_id, get_chat_from_db_byID, clone_chat_to_db, new_chat_in_DOM, activate_chat_click_events);
 
 
 
@@ -511,9 +550,12 @@ newChat.addEventListener('click', ()=>{
 */
 
 chatDeleteBtn.addEventListener('click', ()=>{
-    delete_chat_by_id()
+    delete_chat_by_id();
 });
 
+chatCloneBtn.addEventListener('click', ()=>{
+    duplicate_chat_by_id();
+});
 
 
 
