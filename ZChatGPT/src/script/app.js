@@ -236,6 +236,7 @@ const new_chat_in_DOM = function(id){
 
         let new_chat_DOM_obj = new_chat_item_template.cloneNode(true);
         new_chat_DOM_obj.classList.remove("is-hidden");
+        new_chat_DOM_obj.removeAttribute("id");
 
         // set the new chat id in the dom to be as a refrence to other functions such as toggle control or open the chat
         new_chat_DOM_obj.setAttribute("chatid", id);
@@ -249,9 +250,10 @@ const new_chat_in_DOM = function(id){
 const activate_chat_click_events = function(chat){
     // activate this chat when it is clicked.
     chat?.addEventListener('click', (e)=>{
-        // if(chat == e.target);
-        open_chat(chat);
-        load_achat_messages(chat);
+        if(!chat.classList.contains("active")){
+            open_chat(chat);
+            load_achat_messages(chat);
+        }
     })
 
     // toggle chat_control_wrapper box to control it (when this new chat is cklicked)
@@ -268,6 +270,11 @@ const clear_old_chat = function(chat){
     return chat
 }
 
+const remove_old_chat_id = function(){
+    // Remove all messages in the chat box, so everything will be clear to start writing again
+    current_chat_id.setAttribute("current_chat_id", "");
+    return;
+}
 
 
 
@@ -392,6 +399,7 @@ function push_chats_to_dom(all_chats_obj) {
         // create chatbox in the history box in the slide
         let new_chat_DOM_obj = new_chat_item_template.cloneNode(true);
         new_chat_DOM_obj.classList.remove("is-hidden");
+        new_chat_DOM_obj.removeAttribute("id");
 
         // set the new chat id in the dom to be as a refrence to other functions such as toggle control or open the chat
         new_chat_DOM_obj.setAttribute("chatid", ele["id"]);
@@ -521,7 +529,7 @@ function load_achat_messages(chat) {
     return composer(clear_old_chat, get_all_message_form_chat, push_chat_messages_to_dom, hide_welcomeBox)(chat);
 }
 
-const delete_chat_by_id = composer(show_hide_control_wrapper, get_opened_chat_id, delete_chat_form_db, move_chat_control_wrapper, delete_chat_form_dom);
+const delete_chat_by_id = composer(show_hide_control_wrapper, get_opened_chat_id, delete_chat_form_db, move_chat_control_wrapper, delete_chat_form_dom, clear_old_chat, show_welcomeBox, insert_welcomMsg, remove_old_chat_id);
 
 const duplicate_chat_by_id = composer(get_opened_chat_id, get_chat_from_db_byID, clone_chat_to_db, new_chat_in_DOM, activate_chat_click_events);
 
