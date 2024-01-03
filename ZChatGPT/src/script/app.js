@@ -8,7 +8,8 @@ const apiContoleBar = document.querySelector('.apiControls')
 const sidebarbox = document.querySelector("#sidebarbox");
 const sidebarToggler = document.querySelector("#sidebar-toggler");
 const chatDeleteBtn = document.querySelector("#deleteBtn");
-const chatCloneBtn = document.querySelector("#cloneBtn")
+const chatCloneBtn = document.querySelector("#cloneBtn");
+const chatEditBtn = document.querySelector("#editBtn");
 
 const submitBTN = document.querySelector('#submitBTN');
 const msgCont = document.querySelector("#msgBox");
@@ -51,6 +52,10 @@ const exportClose = document.querySelector('#exportClose');
 const jsonFormateExport = document.querySelector('#jsonFormateExport');
 const txtFormateExport = document.querySelector('#txtFormateExport');
 
+
+const editChatPop = document.querySelector("#editChatPop");
+const chatNameInput = document.querySelector("#chatNameInput");
+const saveChatEditsBtn = document.querySelector("#saveChatEditsBtn");
 
 
 const welcomeMsgs = ["I am here to assit you.", "Finally an alive human came to chat with me!", "Welcome human, Finally I met one🥳.", "Last time I met a human was at 2077", 
@@ -287,7 +292,7 @@ function extract_text_from_response(line){
 }
 
 
-const get_chat_from_db_byID = async function([id, message]){
+const get_chat_from_db_byID = async function([id, param]){
     return new Promise((resolve, reject)=>{
         const db = request.result;
 
@@ -298,9 +303,7 @@ const get_chat_from_db_byID = async function([id, message]){
         const getRequest = store.get(Number(id));
 
         getRequest.onsuccess = ()=>{
-            console.log(id)
-            console.log(getRequest.result)
-            resolve([getRequest.result, message])
+            resolve([getRequest.result, param])
         }
 
         getRequest.onerror = ()=>{
@@ -452,10 +455,10 @@ const move_chat_control_wrapper = function(param){
     return param
 }
 const get_opened_chat_id = function(){
-    return [+current_chat_id.getAttribute("current_chat_id")];
+    return [+current_chat_id.getAttribute("current_chat_id"), ...arguments];
 }
 
-const delete_chat_form_db = async function(id){
+const delete_chat_form_db = async function([id]){
     return new Promise((resolve, reject)=>{
         const db = request.result;
 
@@ -513,6 +516,51 @@ const clone_chat_to_db = async function([chat_object]){
 
 
 
+const push_chat_data_to_edit_popup = function([chatObj]){
+    let chat_name = chatObj["chat_name"];
+    chatNameInput.value = chat_name;
+    return chat_name;
+}
+const get_chat_edits_data = function(){
+    let chat_edits_obj = {
+        chat_name: chatNameInput.value
+    }
+    console.log(chat_edits_obj);
+    return chat_edits_obj
+}
+const put_chat_data_edits_into_DB = async function([chat_obj, edits_obj]){
+    if(chat_obj){
+        return new Promise((resolve, reject)=>{
+            const db = request.result;
+            const transaction = db.transaction("chats", "readwrite");
+            const store = transaction.objectStore("chats");
+    
+            const targeted_chat_object = chat_obj;
+    
+            targeted_chat_object["chat_name"] = edits_obj["chat_name"];
+    
+            const putRequest = store.put(targeted_chat_object);
+    
+            putRequest.onsuccess = ()=>{
+                resolve(chat_obj);
+            }
+    
+            putRequest.onerror = ()=>{
+                reject("failed");
+                throw new Error("Couldn't Save Edits");
+            }
+        })
+    } else{
+        throw new Error("Couldn't Save Edits");
+    }
+}
+const put_chat_data_edits_into_DOM =  async function(edited_chat_obj){
+    let chat_box_in_DOM = document.querySelector(`[chatid="${edited_chat_obj["id"]}"]`);
+    chat_box_in_DOM.querySelector(".btn-name").textContent = edited_chat_obj["chat_name"];
+}
+
+
+
 
 
 
@@ -532,6 +580,12 @@ function load_achat_messages(chat) {
 const delete_chat_by_id = composer(show_hide_control_wrapper, get_opened_chat_id, delete_chat_form_db, move_chat_control_wrapper, delete_chat_form_dom, clear_old_chat, show_welcomeBox, insert_welcomMsg, remove_old_chat_id);
 
 const duplicate_chat_by_id = composer(get_opened_chat_id, get_chat_from_db_byID, clone_chat_to_db, new_chat_in_DOM, activate_chat_click_events);
+
+
+const load_chat_data_to_edit_popup = composer(get_opened_chat_id, get_chat_from_db_byID, push_chat_data_to_edit_popup);
+const save_Chat_New_Edits = composer(get_chat_edits_data, get_opened_chat_id, get_chat_from_db_byID, put_chat_data_edits_into_DB, put_chat_data_edits_into_DOM, ()=>{hidePopUp(editChatPop)});
+
+
 
 
 
@@ -565,8 +619,16 @@ chatCloneBtn.addEventListener('click', ()=>{
     duplicate_chat_by_id();
 });
 
-
-
+chatEditBtn.addEventListener('click', ()=>{
+    editChatPop.classList.toggle('trans');
+    load_chat_data_to_edit_popup();
+});
+editChatClose.addEventListener('click', ()=>{
+    hidePopUp(editChatPop);
+});
+saveChatEditsBtn.addEventListener('click', ()=>{
+    save_Chat_New_Edits()
+});
 
 
 

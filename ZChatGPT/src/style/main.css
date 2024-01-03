@@ -581,7 +581,7 @@ body,html{
 }
 .popupbar {
     width: calc(100% - 40px);
-    max-width: 500px;
+    max-width: 450px;
     padding: 15px;
     background-color: var(--whiteBg);
     position: absolute;
@@ -878,7 +878,11 @@ ul li {
 }
 
 
-
+.saveBtn {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    background-color: var(--green-light) !important;
+}
 
 
 

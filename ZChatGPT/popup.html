@@ -11,6 +11,8 @@
     <link rel='stylesheet' type='text/css' media='screen' href='/src/style/all.min.css'>
 </head>
 <body>
+
+    <!-- Loading interface -->
     <div class="conatiner load" id="load">
         <div class="centeredBox">
             <img src="/assets/images/icon128.png" alt="">
@@ -18,6 +20,7 @@
         </div>
     </div>
 
+    <!-- Chat interface -->
     <div class="conatiner chatapp trans" id="chatapp">
         <div class="columns is-flex chat-layouts">
             <div class="column sidebarbox" id="sidebarbox">
@@ -39,7 +42,7 @@
                         <div class="chat-list" id="chat_list">
                             <!-- Basic Chat Item Template -->
                             <div class="chat-control-wrapper hide" id="chat_control_wrapper" current-chat-id="#######">
-                                <button class="button wrapper-button"><i class="fa-regular fa-pen-to-square has-text-info"></i> Edit Chat</button>
+                                <button class="button wrapper-button" id="editBtn"><i class="fa-regular fa-pen-to-square has-text-info"></i> Edit Chat</button>
                                 <button class="button wrapper-button" id="cloneBtn"><i class="fa-solid fa-clone has-text-grey"></i> Clone Chat</button>
                                 <button class="button wrapper-button" id="exportBtn"><i class="fa-solid fa-cloud-arrow-down has-text-primary"></i> Export Chat</button>
                                 <button class="button wrapper-button has-text-danger" id="deleteBtn"><i class="fa-regular fa-trash-can has-text-danger"></i> Delete Chat</button>
@@ -146,6 +149,8 @@
         </section>
     </div>
 
+
+    <!-- Popups interfaces -->
     <div class="full-shadowBg trans" id="donationPop">
         <div class="is-relative popup">
             <div class="popupbar">
@@ -209,6 +214,26 @@
         </div>
     </div>
 
+    <div class="full-shadowBg trans" id="editChatPop">
+        <div class="is-relative popup">
+            <div class="popupbar">
+                <i class="fa-solid fa-xmark xmark" id="editChatClose"></i>
+                <p class="title is-5 has-text-centered has-text-grey is-marginless">Edit Chat</p>
+                <div class="pt-2">
+                    <div class="field pb-2">
+                        <label class="label">Change Chat Name</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Chat Name Here" id="chatNameInput">
+                        </div>
+                    </div>
+                    <button  class="button is-primary saveBtn" id="saveChatEditsBtn">Save Edits</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Notifications -->
     <div class="doNoti succ has-text-centered">
         <p>Please donate to help us pay for OpenAI costs.😊</p>
         <div class="border"></div>
